@@ -48,6 +48,15 @@ pipeline {
                 }
             }
         }
+        stage('Run tests') {
+            steps {
+                sh 'pytest --maxfail=1 --disable-warnings --junitxml=results.xml'
+        }
+        }
+        stage('Archive Results') {
+            steps {
+                junit 'results.xml'
+        }
     }
     post {
         always {
