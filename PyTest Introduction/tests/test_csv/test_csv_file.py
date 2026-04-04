@@ -1,9 +1,10 @@
 import pytest
 import re
-
+import os
 
 def test_file_not_empty():
-    assert 1 + 1 == 3
+    file_path = "./PyTest Introduction/src/data/data.csv"
+    assert os.path.getsize(file_path) > 0, f"File is empty: {file_path}"
 
 
 def test_duplicates():
