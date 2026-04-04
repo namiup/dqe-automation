@@ -31,6 +31,7 @@ pipeline {
                     sh '''
                         python3 -m venv venv
                         . venv/bin/activate
+                        pip install pytest
                         pip install -r data_dev/requirements.txt
                     '''
                 }
