@@ -54,7 +54,7 @@ pipeline {
         script {
             sh '''
                 . venv/bin/activate
-                pytest /'PyTest Introduction' --maxfail=1 --disable-warnings --junitxml=results.xml
+                pytest ./'PyTest Introduction' --maxfail=1 --disable-warnings --junitxml=results.xml
             '''
         }
     }
