@@ -3,7 +3,7 @@ import re
 
 
 def test_file_not_empty():
-    assert 1 + 1 == 2
+    assert 1 + 1 == 3
 
 
 def test_duplicates():
