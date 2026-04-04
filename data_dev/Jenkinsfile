@@ -44,19 +44,11 @@ pipeline {
                         . venv/bin/activate
                         export PYTHONPATH=$WORKSPACE
                         python data_dev/main.py
+                        sh 'pytest --maxfail=1 --disable-warnings --junitxml=results.xml'
+                        junit 'results.xml'
                     '''
                 }
             }
-        }
-        stage('Run tests') {
-            steps {
-                sh 'pytest --maxfail=1 --disable-warnings --junitxml=results.xml'
-        }
-        }
-        stage('Archive Results') {
-            steps {
-                junit 'results.xml'
-        }
         }
     }
     post {
