@@ -45,7 +45,6 @@ pipeline {
                         export PYTHONPATH=$WORKSPACE
                         python data_dev/main.py
                         sh 'pytest --maxfail=1 --disable-warnings --junitxml=results.xml'
-                        junit 'results.xml'
                     '''
                 }
             }
