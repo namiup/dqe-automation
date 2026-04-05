@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest Introduction' -v --maxfail=1 --disable-warnings --junitxml=results.xml -m "validate_csv"
+                        pytest ./'PyTest Introduction' -v --maxfail=1 --disable-warnings --junitxml=results.xml
                     '''
                 }
             }
