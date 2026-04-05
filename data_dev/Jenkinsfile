@@ -61,12 +61,7 @@ pipeline {
         }
         stage('Run Results') {
             steps {
-                script {
-                    sh '''
-                        . venv/bin/activate
-                        junit 'results.xml'
-                    '''
-                }
+                junit 'results.xml'
             }
         }
     }
