@@ -14,7 +14,7 @@ def test_duplicates():
 
 def test_validate_schema():
     file_path = "./PyTest Introduction/src/data/data.csv"
-    expected_columns = ['id', 'name', 'age1', 'email', 'is_active']
+    expected_columns = ['id', 'name', 'age', 'email', 'is_active']
 
     with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -23,7 +23,16 @@ def test_validate_schema():
 
 
 def test_age_column_valid():
-    assert 1 + 1 == 2
+    file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
+
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row_num, row in enumerate(reader, start=2):  # start=2 to account for header row
+            try:
+                age = int(row['age'])
+            except (ValueError, KeyError):
+                assert False, f"Invalid or missing age value in row {row_num}: {row.get('age')}"
+            assert 0 <= age <= 100, f"Age out of range in row {row_num}: {age}"
 
 
 def test_email_column_valid():
