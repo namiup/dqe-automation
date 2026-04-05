@@ -7,10 +7,9 @@ actual_schema = [["id", "name", "age", "email", "is_active"]]
 # Fixture to read the CSV file
 @pytest.fixture(scope="session", params=file_path)
 def read_file():
-    csvfile = open(file_path, newline='')
-    reader = csv.DictReader(csvfile)
-    yield reader
-    csvfile.close()
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+    return reader
 
 # Fixture to validate the schema of the file
 @pytest.fixture(scope="session", params=actual_schema)
