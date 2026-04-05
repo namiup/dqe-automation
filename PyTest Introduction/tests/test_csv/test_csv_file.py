@@ -1,8 +1,5 @@
 import pytest
 import re
-import os
-import csv
-import re
 
 def test_file_not_empty(read_file):
     rows = list(read_file)
