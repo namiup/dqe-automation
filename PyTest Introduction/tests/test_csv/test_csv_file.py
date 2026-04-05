@@ -1,6 +1,7 @@
 import pytest
 import re
 import os
+import csv
 
 def test_file_not_empty():
     file_path = "./PyTest Introduction/src/data/data.csv"
@@ -12,7 +13,13 @@ def test_duplicates():
 
 
 def test_validate_schema():
-    assert 1 + 1 == 2
+    file_path = "./PyTest Introduction/src/data/data.csv"
+    expected_columns = ['id', 'name', 'age1', 'email', 'is_active']
+
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        actual_columns = reader.fieldnames
+        assert actual_columns == expected_columns, f"Schema mismatch: {actual_columns} != {expected_columns}"
 
 
 def test_age_column_valid():
