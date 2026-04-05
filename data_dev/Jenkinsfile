@@ -50,24 +50,25 @@ pipeline {
             }
         }
         stage('Run Tests') {
-    steps {
-        script {
-            sh '''
-                . venv/bin/activate
-                pytest ./'PyTest Introduction' -v --maxfail=1 --disable-warnings --junitxml=results.xml
-            '''
+            steps {
+                script {
+                    sh '''
+                        . venv/bin/activate
+                        pytest ./'PyTest Introduction' -v --maxfail=1 --disable-warnings --junitxml=results.xml
+                    '''
+                }
+            }
         }
-    }
-}
-    steps {
-        script {
-            sh '''
-                . venv/bin/activate
-                junit 'results.xml'
-            '''
+        stage('Run Results') {
+            steps {
+                script {
+                    sh '''
+                        . venv/bin/activate
+                        junit 'results.xml'
+                    '''
+                }
+            }
         }
-    }
-}
         }
     }
     post {
