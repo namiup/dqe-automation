@@ -2,19 +2,18 @@ import pytest
 import re
 
 def test_file_not_empty(read_file):
-    rows = list(read_file)
-    assert len(rows) > 0, f"File is empty: {file_path}"
+    assert len(read_file) > 0, f"File is empty: {file_path}"
 
 @pytest.mark.validate_csv
-def test_validate_schema(read_file):
+def test_validate_schema(csv_reader):
     expected_columns = ['id', 'name', 'age', 'email', 'is_active']
-    actual_columns = read_file.fieldnames
+    actual_columns = csv_reader.fieldnames
     assert actual_columns == expected_columns, f"Schema mismatch: {actual_columns} != {expected_columns}"
 
 @pytest.mark.validate_csv
 @pytest.mark.skip
 def test_age_column_valid(read_file):
-    for row_num, row in enumerate(read_file, start=2):  # start=2 to account for header row
+    for row_num, row in read_file:
         try:
             age = int(row['age'])
         except (ValueError, KeyError):
@@ -24,7 +23,7 @@ def test_age_column_valid(read_file):
 @pytest.mark.validate_csv
 def test_email_column_valid(read_file):
     email_pattern = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
-    for row_num, row in enumerate(read_file, start=2):  # start=2 to account for header
+    for row_num, row in read_file
         email = row.get('email', '')
         assert email_pattern.match(email), f"Invalid email format in row {row_num}: {email}"
 
