@@ -48,9 +48,8 @@ def test_active_players(id, is_active, read_file):
     for row in read_file:
         if row.get('id') == id:
             found_id = True
-            # Accept both boolean and string representations
             assert row.get('is_active') == is_active, f"is_active should be {is_active} for id={id}, got {row.get('is_active')}"
-assert found_id, f"Row with id={id} not found"
+    assert found_id, f"Row with id={id} not found"
 
 
 def test_active_player(read_file):
@@ -60,6 +59,5 @@ def test_active_player(read_file):
     for row in read_file:
         if row.get('id') == id:
             found_id = True
-            # Accept both boolean and string representations
             assert row.get('is_active') == is_active, f"is_active should be {is_active} for id={id}, got {row.get('is_active')}"
-assert found_id, f"Row with id={id} not found"
+    assert found_id, f"Row with id={id} not found"
