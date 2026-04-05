@@ -13,7 +13,7 @@ def test_validate_schema(csv_reader):
 @pytest.mark.validate_csv
 @pytest.mark.skip
 def test_age_column_valid(read_file):
-    for row_num, row in read_file:
+    for row in read_file:
         try:
             age = int(row['age'])
         except (ValueError, KeyError):
@@ -23,7 +23,7 @@ def test_age_column_valid(read_file):
 @pytest.mark.validate_csv
 def test_email_column_valid(read_file):
     email_pattern = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
-    for row_num, row in read_file
+    for row in read_file
         email = row.get('email', '')
         assert email_pattern.match(email), f"Invalid email format in row {row_num}: {email}"
 
