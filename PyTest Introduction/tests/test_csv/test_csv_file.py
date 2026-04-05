@@ -59,7 +59,7 @@ def test_duplicates():
     
 @pytest.mark.parametrize("id, is_active", [
     (1, False),
-    (2, Active)
+    (2, True)
 ])
 def test_active_players(id, is_active):
     file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
