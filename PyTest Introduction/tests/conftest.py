@@ -4,20 +4,18 @@ import csv
 file_path = "./PyTest Introduction/src/data/data.csv"
 actual_schema = [["id", "name", "age", "email", "is_active"]]
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def read_file():
-    """Returns a list of all rows (dicts) for repeated use in tests."""
     with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         rows = list(reader)
     return rows
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def csv_reader():
-    """Returns a fresh DictReader (iterator) for tests that need it."""
     with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        yield reader  # Use yield so the file stays open during the test
+        yield reader
 
 # Fixture to validate the schema of the file
 @pytest.fixture(scope="session", params=actual_schema)
