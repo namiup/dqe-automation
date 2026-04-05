@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest Introduction' -v --html=report.html -m "validate_csv and not xfail"
+                        pytest ./'PyTest Introduction' -v --html=report.html -m "unmarked"
                     '''
                 }
             }
