@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest Introduction' -v --maxfail=1 --disable-warnings --html=report.html
+                        pytest ./'PyTest Introduction' -v --html=report.html
                     '''
                 }
             }
