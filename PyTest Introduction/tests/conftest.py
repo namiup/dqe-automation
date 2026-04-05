@@ -24,3 +24,7 @@ def validate_schema(csv_reader):
     assert actual_schema == expected_schema, f"Schema mismatch: {actual_schema} != {expected_schema}"
 
 # Pytest hook to mark unmarked tests with a custom mark
+def pytest_collection_modifyitems(config, items):
+    for item in items:
+        if not list(item.iter_markers()):
+            item.add_marker("unmarked")
