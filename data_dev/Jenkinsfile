@@ -59,6 +59,16 @@ pipeline {
         }
     }
 }
+    steps {
+        script {
+            sh '''
+                . venv/bin/activate
+                junit 'results.xml'
+            '''
+        }
+    }
+}
+        }
     }
     post {
         always {
