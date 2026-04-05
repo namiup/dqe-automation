@@ -5,7 +5,8 @@ import csv
 import re
 
 def test_file_not_empty(read_file):
-    assert len(read_file) > 0, f"File is empty: {file_path}"
+    rows = list(read_file)
+    assert len(rows) > 0, f"File is empty: {file_path}"
 
 @pytest.mark.validate_csv
 def test_validate_schema(read_file):
