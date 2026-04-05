@@ -5,10 +5,8 @@ def test_file_not_empty(read_file):
     assert len(read_file) > 0, f"File is empty: {file_path}"
 
 @pytest.mark.validate_csv
-def test_validate_schema(csv_reader):
-    expected_columns = ['id', 'name', 'age', 'email', 'is_active']
-    actual_columns = csv_reader.fieldnames
-    assert actual_columns == expected_columns, f"Schema mismatch: {actual_columns} != {expected_columns}"
+def test_validate_schema(validate_schema):
+    return validate_schema
 
 @pytest.mark.validate_csv
 @pytest.mark.skip
