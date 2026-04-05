@@ -69,7 +69,7 @@ def test_active_players(id, is_active, file_path):
 
 
 def test_active_player(file_path):
-    id = "1"
+    id = "2"
     is_active = "True"
     found_id = False
     with open(file_path, newline='') as csvfile:
