@@ -1,7 +1,7 @@
 import pytest
 import csv
 
-file_path = ["./PyTest Introduction/src/data/data.csv"]
+file_path = "./PyTest Introduction/src/data/data.csv"
 actual_schema = [["id", "name", "age", "email", "is_active"]]
 
 # Fixture to read the CSV file
