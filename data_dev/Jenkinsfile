@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest Introduction' -v --html=report.html --self-contained-html --tb=long
+                        pytest ./'PyTest Introduction' -v --html=report.html --self-contained-html --tb=long --capture=tee-sys
                     '''
                 }
             }
