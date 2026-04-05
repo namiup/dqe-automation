@@ -4,23 +4,23 @@ import os
 import csv
 import re
 
-def test_file_not_empty(get_file):
-    assert os.path.getsize(get_file.file_path) > 0, f"File is empty: {file_path}"
+def test_file_not_empty(file_path):
+    assert os.path.getsize(file_path) > 0, f"File is empty: {file_path}"
 
 @pytest.mark.validate_csv
-def test_validate_schema(get_file):
+def test_validate_schema(file_path):
     expected_columns = ['id', 'name', 'age', 'email', 'is_active']
 
-    with open(get_file.file_path, newline='') as csvfile:
+    with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         actual_columns = reader.fieldnames
         assert actual_columns == expected_columns, f"Schema mismatch: {actual_columns} != {expected_columns}"
 
 @pytest.mark.validate_csv
 @pytest.mark.skip
-def test_age_column_valid(get_file):
+def test_age_column_valid(file_path):
 
-    with open(get_file.file_path, newline='') as csvfile:
+    with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row_num, row in enumerate(reader, start=2):  # start=2 to account for header row
             try:
@@ -30,10 +30,10 @@ def test_age_column_valid(get_file):
             assert 0 <= age <= 100, f"Age out of range in row {row_num}: {age}"
 
 @pytest.mark.validate_csv
-def test_email_column_valid(get_file):
+def test_email_column_valid(file_path):
     email_pattern = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
-    with open(get_file.file_path, newline='') as csvfile:
+    with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row_num, row in enumerate(reader, start=2):  # start=2 to account for header
             email = row.get('email', '')
@@ -41,9 +41,9 @@ def test_email_column_valid(get_file):
 
 @pytest.mark.validate_csv
 @pytest.mark.xfail
-def test_duplicates(get_file):
+def test_duplicates(file_path):
 
-    with open(get_file.file_path, newline='') as csvfile:
+    with open(file_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
         rows = list(reader)
 
@@ -56,9 +56,9 @@ def test_duplicates(get_file):
     ("1", "False"),
     ("2", "True")
 ])
-def test_active_players(id, is_active, get_file):
+def test_active_players(id, is_active, file_path):
     found_id = False
-    with open(get_file.file_path, newline='') as csvfile:
+    with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if row.get('id') == id:
@@ -68,11 +68,11 @@ def test_active_players(id, is_active, get_file):
     assert found_id, f"Row with id={id} not found"
 
 
-def test_active_player(get_file):
+def test_active_player(file_path):
     id = "1"
     is_active = "True"
     found_id = False
-    with open(get_file.file_path, newline='') as csvfile:
+    with open(file_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if row.get('id') == id:
