@@ -19,8 +19,8 @@ def csv_reader():
 
 # Fixture to validate the schema of the file
 @pytest.fixture(scope="session")
-def validate_schema(read_file):
-    expected_schema = read_file.fieldnames
+def validate_schema(csv_reader):
+    expected_schema = csv_reader.fieldnames
     assert actual_schema == expected_schema, f"Schema mismatch: {actual_schema} != {expected_schema}"
 
 # Pytest hook to mark unmarked tests with a custom mark
