@@ -58,11 +58,11 @@ def test_duplicates():
     assert len(unique_rows) == len(data_rows), "Duplicate rows found in the CSV file"
     
 @pytest.mark.parametrize("id, is_active", [
-    (1, False),
-    (2, True)
+    ("1", False),
+    ("2", True)
 ])
 def test_active_players(id, is_active):
-    file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
+    file_path = "./PyTest Introduction/src/data/data.csv"
 
     found_id = False
 
