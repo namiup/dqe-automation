@@ -72,9 +72,9 @@ def test_active_players(id, is_active):
             if row.get('id') == id:
                 found_id = True
                 # Accept both boolean and string representations
-                assert row.get('is_active') == is_active, f"is_active should be is_active for id=id, got {row.get('is_active')}"
+                assert row.get('is_active') == is_active, f"is_active should be {is_active} for id={id}, got {row.get('is_active')}"
                 
-    assert found_id, "Row with id not found"
+    assert found_id, f"Row with {id} not found"
 
 @pytest.mark.xfail
 def test_active_player():
