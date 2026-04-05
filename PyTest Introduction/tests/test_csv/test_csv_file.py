@@ -16,6 +16,8 @@ def test_duplicates():
         reader = csv.reader(csvfile)
         rows = list(reader)
 
+    header, *data_rows = rows  # Unpack header and data rows
+
     unique_rows = set(tuple(row) for row in data_rows)
     assert len(unique_rows) == len(data_rows), "Duplicate rows found in the CSV file"
 
