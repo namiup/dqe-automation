@@ -57,7 +57,7 @@ def test_duplicates():
     unique_rows = set(tuple(row) for row in data_rows)
     assert len(unique_rows) == len(data_rows), "Duplicate rows found in the CSV file"
     
-@pytest.mark.parametrize
+# @pytest.mark.parametrize
 def test_active_players():
     file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
 
