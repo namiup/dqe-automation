@@ -1,5 +1,5 @@
 import pytest
-import pandas as pd
+import csv
 
 # Fixture to read the CSV file
 @pytest.fixture
