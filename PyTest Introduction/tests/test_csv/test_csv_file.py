@@ -2,6 +2,7 @@ import pytest
 import re
 import os
 import csv
+import re
 
 def test_file_not_empty():
     file_path = "./PyTest Introduction/src/data/data.csv"
@@ -9,7 +10,14 @@ def test_file_not_empty():
 
 
 def test_duplicates():
-    assert 1 + 1 == 2
+    file_path = "./PyTest Introduction/src/data/data.csv"
+
+    with open(file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        rows = list(reader)
+
+    unique_rows = set(tuple(row) for row in data_rows)
+    assert len(unique_rows) == len(data_rows), "Duplicate rows found in the CSV file"
 
 
 def test_validate_schema():
@@ -36,12 +44,51 @@ def test_age_column_valid():
 
 
 def test_email_column_valid():
-    assert 1 + 1 == 2
+    file_path = "./PyTest Introduction/src/data/data.csv"
+    email_pattern = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row_num, row in enumerate(reader, start=2):  # start=2 to account for header
+            email = row.get('email', '')
+            assert email_pattern.match(email), f"Invalid email format in row {row_num}: {email}"
 
 
 def test_active_players():
-    assert 1 + 1 == 2
+    file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
+
+    found_id_1 = found_id_2 = False
+
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row.get('id') == '1':
+                found_id_1 = True
+                # Accept both boolean and string representations
+                assert row.get('is_active') in ['False', 'false', '0', False, 0], f"is_active should be False for id=1, got {row.get('is_active')}"
+            if row.get('id') == '2':
+                found_id_2 = True
+                assert row.get('is_active') in ['True', 'true', '1', True, 1], f"is_active should be True for id=2, got {row.get('is_active')}"
+
+    assert found_id_1, "Row with id=1 not found"
+    assert found_id_2, "Row with id=2 not found"
 
 
 def test_active_player():
-    assert 1 + 1 == 2
+    file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
+
+    found_id_1 = found_id_2 = False
+
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row.get('id') == '2':
+                found_id_2 = True
+                # Accept both boolean and string representations
+                assert row.get('is_active') in ['False', 'false', '0', False, 0], f"is_active should be False for id=2, got {row.get('is_active')}"
+            if row.get('id') == '1':
+                found_id_1 = True
+                assert row.get('is_active') in ['True', 'true', '1', True, 1], f"is_active should be True for id=1, got {row.get('is_active')}"
+
+    assert found_id_1, "Row with id=1 not found"
+    assert found_id_2, "Row with id=2 not found"
