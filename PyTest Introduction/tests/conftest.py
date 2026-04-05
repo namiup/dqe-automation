@@ -14,9 +14,9 @@ def read_file(params=file_path):
 
 # Fixture to validate the schema of the file
 @pytest.fixture(scope="session")
-def validate_schema(params=actual_schema, read_file):
-    actual_schema = request.param
-    expected_schema = read_file.fieldnames
+def validate_schema(params=[actual_schema, read_file]):
+    actual_schema = request.param.actual_schema
+    expected_schema = request.param.read_file.fieldnames
     assert actual_schema == expected_schema, f"Schema mismatch: {actual_schema} != {expected_schema}"
 
 # Pytest hook to mark unmarked tests with a custom mark
