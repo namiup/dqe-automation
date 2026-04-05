@@ -74,24 +74,24 @@ def test_active_players(id, is_active):
                 # Accept both boolean and string representations
                 assert row.get('is_active') == is_active, f"is_active should be {is_active} for id={id}, got {row.get('is_active')}"
                 
-    assert found_id, f"Row with {id} not found"
+    assert found_id, f"Row with id={id} not found"
 
-@pytest.mark.xfail
-def test_active_player():
-    file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
+# @pytest.mark.xfail
+# def test_active_player():
+#     file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
 
-    found_id_1 = found_id_2 = False
+#     found_id_1 = found_id_2 = False
 
-    with open(file_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            if row.get('id') == '2':
-                found_id_2 = True
-                # Accept both boolean and string representations
-                assert row.get('is_active') in ['False', 'false', '0', False, 0], f"is_active should be False for id=2, got {row.get('is_active')}"
-            if row.get('id') == '1':
-                found_id_1 = True
-                assert row.get('is_active') in ['True', 'true', '1', True, 1], f"is_active should be True for id=1, got {row.get('is_active')}"
+#     with open(file_path, newline='') as csvfile:
+#         reader = csv.DictReader(csvfile)
+#         for row in reader:
+#             if row.get('id') == '2':
+#                 found_id_2 = True
+#                 # Accept both boolean and string representations
+#                 assert row.get('is_active') in ['False', 'false', '0', False, 0], f"is_active should be False for id=2, got {row.get('is_active')}"
+#             if row.get('id') == '1':
+#                 found_id_1 = True
+#                 assert row.get('is_active') in ['True', 'true', '1', True, 1], f"is_active should be True for id=1, got {row.get('is_active')}"
 
-    assert found_id_1, "Row with id=1 not found"
-    assert found_id_2, "Row with id=2 not found"
+#     assert found_id_1, "Row with id=1 not found"
+#     assert found_id_2, "Row with id=2 not found"
