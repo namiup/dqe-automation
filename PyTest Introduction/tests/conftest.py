@@ -4,10 +4,11 @@ import pandas as pd
 # Fixture to read the CSV file
 @pytest.fixture
 def read_file():
-  file_path = "./PyTest Introduction/src/data/data.csv"
-      with open(file_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-  return reader
+    file_path = "./PyTest Introduction/src/data/data.csv"
+    csvfile = open(file_path, newline='')
+    reader = csv.DictReader(csvfile)
+    yield reader
+    csvfile.close()
 
 # Fixture to validate the schema of the file
 
