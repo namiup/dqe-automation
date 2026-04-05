@@ -2,7 +2,8 @@ import pytest
 import pandas as pd
 
 # Fixture to read the CSV file
-@pytest.fixture.get_file():
+@pytest.fixture
+def get_file():
   file_path = "./PyTest Introduction/src/data/data.csv"
   return file_path
 
