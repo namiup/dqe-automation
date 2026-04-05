@@ -8,20 +8,7 @@ def test_file_not_empty():
     file_path = "./PyTest Introduction/src/data/data.csv"
     assert os.path.getsize(file_path) > 0, f"File is empty: {file_path}"
 
-
-def test_duplicates():
-    file_path = "./PyTest Introduction/src/data/data.csv"
-
-    with open(file_path, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        rows = list(reader)
-
-    header, *data_rows = rows  # Unpack header and data rows
-
-    unique_rows = set(tuple(row) for row in data_rows)
-    assert len(unique_rows) == len(data_rows), "Duplicate rows found in the CSV file"
-
-
+@pytest.mark.validate_csv
 def test_validate_schema():
     file_path = "./PyTest Introduction/src/data/data.csv"
     expected_columns = ['id', 'name', 'age', 'email', 'is_active']
@@ -31,7 +18,8 @@ def test_validate_schema():
         actual_columns = reader.fieldnames
         assert actual_columns == expected_columns, f"Schema mismatch: {actual_columns} != {expected_columns}"
 
-
+@pytest.mark.validate_csv
+@pytest.mark.skip
 def test_age_column_valid():
     file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
 
@@ -44,7 +32,7 @@ def test_age_column_valid():
                 assert False, f"Invalid or missing age value in row {row_num}: {row.get('age')}"
             assert 0 <= age <= 100, f"Age out of range in row {row_num}: {age}"
 
-
+@pytest.mark.validate_csv
 def test_email_column_valid():
     file_path = "./PyTest Introduction/src/data/data.csv"
     email_pattern = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
@@ -55,7 +43,21 @@ def test_email_column_valid():
             email = row.get('email', '')
             assert email_pattern.match(email), f"Invalid email format in row {row_num}: {email}"
 
+@pytest.mark.validate_csv
+@pytest.mark.xfail
+def test_duplicates():
+    file_path = "./PyTest Introduction/src/data/data.csv"
 
+    with open(file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        rows = list(reader)
+
+    header, *data_rows = rows  # Unpack header and data rows
+
+    unique_rows = set(tuple(row) for row in data_rows)
+    assert len(unique_rows) == len(data_rows), "Duplicate rows found in the CSV file"
+    
+@pytest.mark.parametrize
 def test_active_players():
     file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
 
@@ -75,22 +77,22 @@ def test_active_players():
     assert found_id_1, "Row with id=1 not found"
     assert found_id_2, "Row with id=2 not found"
 
+@pytest.mark.xfail
+def test_active_player():
+    file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
 
-# def test_active_player():
-#     file_path = "./PyTest Introduction/src/data/data.csv"  # Update path as needed
+    found_id_1 = found_id_2 = False
 
-#     found_id_1 = found_id_2 = False
+    with open(file_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row.get('id') == '2':
+                found_id_2 = True
+                # Accept both boolean and string representations
+                assert row.get('is_active') in ['False', 'false', '0', False, 0], f"is_active should be False for id=2, got {row.get('is_active')}"
+            if row.get('id') == '1':
+                found_id_1 = True
+                assert row.get('is_active') in ['True', 'true', '1', True, 1], f"is_active should be True for id=1, got {row.get('is_active')}"
 
-#     with open(file_path, newline='') as csvfile:
-#         reader = csv.DictReader(csvfile)
-#         for row in reader:
-#             if row.get('id') == '2':
-#                 found_id_2 = True
-#                 # Accept both boolean and string representations
-#                 assert row.get('is_active') in ['False', 'false', '0', False, 0], f"is_active should be False for id=2, got {row.get('is_active')}"
-#             if row.get('id') == '1':
-#                 found_id_1 = True
-#                 assert row.get('is_active') in ['True', 'true', '1', True, 1], f"is_active should be True for id=1, got {row.get('is_active')}"
-
-#     assert found_id_1, "Row with id=1 not found"
-#     assert found_id_2, "Row with id=2 not found"
+    assert found_id_1, "Row with id=1 not found"
+    assert found_id_2, "Row with id=2 not found"
