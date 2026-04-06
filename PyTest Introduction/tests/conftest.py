@@ -27,7 +27,8 @@ def csv_reader(request):
 # Fixture to validate the schema of the file
 @pytest.fixture(scope="session")
 def validate_schema(csv_reader, request):
-    actual_schema = request.config.getoption("--actual_schema")
+    schema_str = request.config.getoption("--actual_schema")
+    actual_schema = [s.strip() for s in schema_str.split(",")]
     expected_schema = csv_reader.fieldnames
     assert actual_schema == expected_schema, f"Schema mismatch: {actual_schema} != {expected_schema}"
 
