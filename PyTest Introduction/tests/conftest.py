@@ -3,10 +3,10 @@ import csv
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--file_path", action="store", default="./PyTest Introduction/src/data/data.csv", help="Path to csv file"
+        "--file_path", action="store", help="Path to csv file"
     )
     parser.addoption(
-        "--actual_schema", action="store", default=["id", "name", "age", "email", "is_active"], help="Expected actual schema"
+        "--actual_schema", action="store", help="Expected actual schema"
     )
 
 @pytest.fixture(scope="session")
