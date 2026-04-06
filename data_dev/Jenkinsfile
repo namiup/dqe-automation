@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest Introduction' -v --html=report.html --file_path="./PyTest Introduction/src/data/data.csv" --actual_schema=['id','name','age','email','is_active']
+                        pytest ./'PyTest Introduction' -v --html=report.html --file_path="./PyTest Introduction/src/data/data.csv" --actual_schema=id,name,age,email,is_active
                     '''
                 }
             }
