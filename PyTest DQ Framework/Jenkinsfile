@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest DQ Framework' -v --html=report.html
+                        pytest ./'PyTest DQ Framework' -v --html=report.html --db_user=11 --password=22
                     '''
                 }
             }
