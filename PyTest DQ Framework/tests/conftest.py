@@ -34,4 +34,3 @@ def db_connection(request):
     except Exception as e:
         pytest.fail(f"Failed to initialize PostgresConnectorContextManager: {e}")
 
-...
