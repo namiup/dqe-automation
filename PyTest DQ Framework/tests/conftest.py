@@ -23,7 +23,11 @@ def pytest_configure(config):
 
 @pytest.fixture(scope='session')
 def db_connection(request):
-    ...
+    db_host = request.config.getoption("--db_host")
+    db_name = request.config.getoption("--db_name")
+    db_port = request.config.getoption("--db_port")
+    db_user = request.config.getoption("--db_user")
+    db_password = request.config.getoption("--db_password")
     try:
         with PostgresConnectorContextManager(...) as db_connector:
             yield db_connector
