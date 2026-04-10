@@ -59,11 +59,6 @@ pipeline {
                 }
             }
         }
-        stage('Run Results') {
-            steps {
-                junit 'results.xml'
-            }
-        }
     }
     post {
         always {
