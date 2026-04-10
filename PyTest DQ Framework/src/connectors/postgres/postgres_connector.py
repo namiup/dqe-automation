@@ -2,7 +2,7 @@
 import psycopg2
 
 class PostgresConnectorContextManager:
-    def __init__(self, db_host: str, db_name: str, ...):
+    def __init__(self, db_host: str, db_name: str, db_user: str, db_password: str):
         # init
 
     def __enter__(self):
