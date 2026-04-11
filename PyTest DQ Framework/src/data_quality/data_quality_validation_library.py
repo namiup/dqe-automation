@@ -1,5 +1,5 @@
 import pandas as pd
-
+import pytest
 
 class DataQualityLibrary:
     @pytest.fixture(scope='session')
