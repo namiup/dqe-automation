@@ -2,15 +2,15 @@ import pandas as pd
 
 
 class DataQualityLibrary:
-@pytest.fixture(scope='session')
-def data_quality_library():
-    try:
-        data_quality_library = DataQualityLibrary()
-        yield data_quality_library
-    except Exception as e:
-        pytest.fail(f"Failed to initialize DataQualityLibrary: {e}")
-    finally:
-        del data_quality_library
+    @pytest.fixture(scope='session')
+    def data_quality_library():
+        try:
+            data_quality_library = DataQualityLibrary()
+            yield data_quality_library
+        except Exception as e:
+            pytest.fail(f"Failed to initialize DataQualityLibrary: {e}")
+        finally:
+            del data_quality_library
 
     @staticmethod
     def check_duplicates(df, column_names=None):
