@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+    POSTGRES_SECRET = credentials('jenkins-postgres-credentials')
+    }
     stages {
         stage('Update Packages') {
             steps {
