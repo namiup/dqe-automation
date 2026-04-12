@@ -33,5 +33,5 @@ class PostgresConnectorContextManager:
 
 
 with PostgresConnectorContextManager('postgres', '5432', 'mydatabase', 'myuser', 'mypassword') as obj:
-    print(mycon.get_data_sql("select 1"))
+    print(obj.get_data_sql("select 1"))
 
