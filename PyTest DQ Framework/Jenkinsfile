@@ -54,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        python ./src/connectors/postgres/postgres_connector.py 
+                        python ./'PyTest DQ Framework'/src/connectors/postgres/postgres_connector.py 
                     '''
                 }
             }
