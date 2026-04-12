@@ -13,11 +13,12 @@ class PostgresConnectorContextManager:
 
     def __enter__(self):
         # create conn
-        conn = psycopg2.connect(
-        dbname="db_name",
-        user="db_user",
-        password="db_password",
-        host="db_host"
+        self.conn = psycopg2.connect(
+            dbname=self.db_name,
+            user=self.db_user,
+            password=self.db_password,
+            host=self.db_host,
+            port=self.db_port
         )
         return self 
 
