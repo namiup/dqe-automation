@@ -4,7 +4,12 @@ import psycopg2
 class PostgresConnectorContextManager:
     def __init__(self, db_host: str, db_port: str, db_name: str, db_user: str, db_password: str):
         # init
-        pass
+        self.db_host = db_host
+        self.db_port = db_port
+        self.db_name = db_name
+        self.db_user = db_user
+        self.db_password = db_password
+        self.conn = None
 
     def __enter__(self):
         # create conn
