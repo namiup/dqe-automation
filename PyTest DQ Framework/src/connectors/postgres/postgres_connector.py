@@ -14,6 +14,7 @@ class PostgresConnectorContextManager:
         password="db_password",
         host="db_host"
         )
+        return self 
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         # close conn
@@ -25,5 +26,7 @@ class PostgresConnectorContextManager:
         df = pd.read_sql_query(sql, conn)
         return df
 
-mycon = PostgresConnectorContextManager('localhost', '5434', 'mydatabase', 'myuser', 'mypassword')
-print(mycon.get_data_sql("select 1"))
+
+with PostgresConnectorContextManager('localhost', '5434', 'mydatabase', 'myuser', 'mypassword') as obj:
+    print(mycon.get_data_sql("select 1"))
+
