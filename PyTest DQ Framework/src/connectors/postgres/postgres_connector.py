@@ -24,12 +24,11 @@ class PostgresConnectorContextManager:
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         # close conn
-        self.cur.close()
         self.conn.close()
 
     def get_data_sql(self, sql):
         # exec query, result = pandas df
-        df = pd.read_sql_query(sql, conn)
+        df = pd.read_sql_query(sql, self.conn)
         return df
 
 
