@@ -33,6 +33,6 @@ class PostgresConnectorContextManager:
         return df
 
 
-with PostgresConnectorContextManager('localhost', '5434', 'mydatabase', 'myuser', 'mypassword') as obj:
+with PostgresConnectorContextManager('postgres', '5434', 'mydatabase', 'myuser', 'mypassword') as obj:
     print(mycon.get_data_sql("select 1"))
 
