@@ -1,7 +1,7 @@
 import psycopg2
 
 class PostgresConnectorContextManager:
-    def __init__(self, db_host: str, db_name: str, db_user: str, db_password: str):
+    def __init__(self, db_host: str, db_port: str, db_name: str, db_user: str, db_password: str):
         # init
         pass
 
@@ -24,4 +24,5 @@ class PostgresConnectorContextManager:
         df = pd.read_sql_query(sql, conn)
         return df
 
-
+mycon = PostgresConnectorContextManager('localhost', '5434', 'mydatabase', 'myuser', 'mypassword')
+print(mycon.get_data_sql("select 1"))
