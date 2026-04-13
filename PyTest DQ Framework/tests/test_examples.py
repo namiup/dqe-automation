@@ -5,6 +5,7 @@ Author(s): Name Surname
 """
 
 import pytest
+from src.connectors.file_system.parquet_reader import ParquetReader
 
 @pytest.mark.parquet_data
 def test_connect(db_connection):
