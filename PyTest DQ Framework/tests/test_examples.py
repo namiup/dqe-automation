@@ -8,7 +8,8 @@ import pytest
 
 @pytest.mark.parquet_data
 def test_connect(db_connection):
-    assert db_connection.get_data_sql("select count(*) from patients") == 30
+    df = db_connection.get_data_sql("select count(*) from patients")
+    assert df.iloc[0, 0] == 30
 
 
 # @pytest.fixture(scope='module')
