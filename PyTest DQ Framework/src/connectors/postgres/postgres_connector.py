@@ -32,6 +32,5 @@ class PostgresConnectorContextManager:
         return df
 
 def test_connect():
-    with PostgresConnectorContextManager('postgres', '5432', 'mydatabase', 'myuser', 'mypassword') as obj:
-        assert obj.get_data_sql("select count(*) from patients") == 30
+    assert db_connection.get_data_sql("select count(*) from patients") == 30
 
