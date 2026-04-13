@@ -45,9 +45,9 @@ def test_facility_data(target_data_factory):
     return target_data
 
 
-# @pytest.mark.parquet_data
-# def test_check_dataset_is_not_empty(test_facility_data, data_quality_library):
-#     data_quality_library.check_dataset_is_not_empty(test_facility_data)
+@pytest.mark.parquet_data
+def test_check_dataset_is_not_empty(test_facility_data, data_quality_library):
+    data_quality_library.check_dataset_is_not_empty(test_facility_data)
 
 
 # @pytest.mark.parquet_data
