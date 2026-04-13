@@ -7,7 +7,7 @@ Author(s): Name Surname
 import pytest
 
 def test_connect():
-    db_connector = db_connection(request)
+    db_connector = db_connection()
     assert db_connector.get_data_sql("select count(*) from patients") == 30
 
 
