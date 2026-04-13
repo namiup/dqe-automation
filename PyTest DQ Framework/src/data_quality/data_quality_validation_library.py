@@ -31,5 +31,5 @@ class DataQualityLibrary:
 
     @staticmethod
     def check_not_null_values(df, column_names=None):
-        col for df.column_names:
+        for col in df.column_names:
             col.not_null
