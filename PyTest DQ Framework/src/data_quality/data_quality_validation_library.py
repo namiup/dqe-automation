@@ -19,7 +19,7 @@ class DataQualityLibrary:
 
     @staticmethod
     def check_count(df1, df2):
-        df1.count = df2.count
+        assert len(df1) == len(df2), f"Row counts differ: {len(df1)} != {len(df2)}"
 
     @staticmethod
     def check_data_full_data_set(df1, df2):
