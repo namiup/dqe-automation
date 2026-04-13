@@ -10,7 +10,8 @@ from src.connectors.file_system.parquet_reader import ParquetReader
 @pytest.fixture(scope='session')
 def parquet_reader(request):
     try:
-        reader = ParquetReader()
+        file_path = "/parquet_data/"
+        reader = ParquetReader(file_path)
         yield reader
     except Exception as e:
         pytest.fail(f"Failed to initialize ParquetReader: {e}")
