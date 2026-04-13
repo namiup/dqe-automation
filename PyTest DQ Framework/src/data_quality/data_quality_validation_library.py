@@ -13,9 +13,9 @@ class DataQualityLibrary:
     @staticmethod
     def check_duplicates(df, column_names=None):
         if column_names:
-            df.duplicates(column_names)
+            df.duplicated(column_names)
         else:
-            df.duplicates(all_columns)
+            df.duplicated(all_columns)
 
     @staticmethod
     def check_count(df1, df2):
