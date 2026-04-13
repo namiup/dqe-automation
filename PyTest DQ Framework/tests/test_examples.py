@@ -10,7 +10,7 @@ from src.connectors.file_system.parquet_reader import ParquetReader
 @pytest.fixture(scope='session')
 def parquet_reader(request):
     try:
-        reader = ParquetReader()
+        reader = ParquetReader('/parquet_data/facility_name_min_time_spent_per_visit_date')
         yield reader
     except Exception as e:
         pytest.fail(f"Failed to initialize ParquetReader: {e}")
