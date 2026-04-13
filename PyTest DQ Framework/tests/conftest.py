@@ -34,7 +34,13 @@ def db_params(request):
 @pytest.fixture(scope='session')
 def db_connection(db_params):
     try:
-        with PostgresConnectorContextManager(db_params) as db_connector:
+        with PostgresConnectorContextManager(
+        db_params["host"],
+        db_params["port"],
+        db_params["dbname"],
+        db_params["user"],
+        db_params["password"]
+        ) as db_connector:
             yield db_connector
     except Exception as e:
         pytest.fail(f"Failed to initialize PostgresConnectorContextManager: {e}")
