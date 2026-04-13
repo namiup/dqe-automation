@@ -28,11 +28,11 @@ def target_data(parquet_reader):
     return target_data
 
 
-@pytest.mark.example
+@pytest.mark.parquet_data
 def test_check_dataset_is_not_empty(target_data, data_quality_library):
     data_quality_library.check_dataset_is_not_empty(target_data)
 
 
-# @pytest.mark.example
-# def test_check_count(source_data, target_data, data_quality_library):
-#     data_quality_library.check_count(source_data, target_data)
+@pytest.mark.parquet_data
+def test_check_count(source_data, target_data, data_quality_library):
+    data_quality_library.check_count(source_data, target_data)
