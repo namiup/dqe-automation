@@ -12,13 +12,13 @@ def test_connect(db_connection):
     assert df.iloc[0, 0] == 30
 
 
-# @pytest.fixture(scope='module')
-# def source_data(db_connection):
-#     source_query = """
-#     SELECT ...
-#     """
-#     source_data = db_connection.get_data_sql(source_query)
-#     return source_data
+@pytest.fixture(scope='module')
+def source_data(db_connection):
+    source_query = """
+    select count(*) from patients
+    """
+    source_data = db_connection.get_data_sql(source_query)
+    return source_data
 
 
 # @pytest.fixture(scope='module')
