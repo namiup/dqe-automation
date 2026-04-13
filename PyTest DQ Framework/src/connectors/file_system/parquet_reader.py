@@ -1,3 +1,5 @@
+import pytets
+
 @pytest.fixture(scope='session')
 def parquet_reader(request):
     try:
