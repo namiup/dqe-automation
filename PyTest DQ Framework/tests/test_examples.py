@@ -32,12 +32,6 @@ def source_data(db_connection):
     return source_data
 
 
-# @pytest.fixture(scope='module')
-# def target_data(parquet_reader):
-#     target_path = '/parquet_data/facility_name_min_time_spent_per_visit_date'
-#     target_data = parquet_reader.process(target_path, include_subfolders=True)
-#     return target_data
-
 @pytest.fixture(scope='module')
 def target_data_factory(parquet_reader):
     def _factory(target_path, include_subfolders=True):
@@ -51,10 +45,10 @@ def test_facility_data(target_data_factory):
 
 
 @pytest.mark.parquet_data
-def test_check_dataset_is_not_empty(target_data_factory, data_quality_library):
+def test_check_dataset_is_not_empty(test_facility_data, data_quality_library):
     data_quality_library.check_dataset_is_not_empty(target_data_factory)
 
 
 @pytest.mark.parquet_data
-def test_check_count(source_data, target_data_factory, data_quality_library):
+def test_check_count(source_data, test_facility_data, data_quality_library):
     data_quality_library.check_count(source_data, target_data_factory)
