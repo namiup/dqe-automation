@@ -5,7 +5,7 @@ Author(s): Name Surname
 """
 
 import pytest
-
+from src.connectors.file_system.parquet_reader import ParquetReader
 
 @pytest.fixture(scope='session')
 def parquet_reader(request):
