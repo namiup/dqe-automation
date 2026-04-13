@@ -32,10 +32,21 @@ def source_data(db_connection):
     return source_data
 
 
+# @pytest.fixture(scope='module')
+# def target_data(parquet_reader):
+#     target_path = '/parquet_data/facility_name_min_time_spent_per_visit_date'
+#     target_data = parquet_reader.process(target_path, include_subfolders=True)
+#     return target_data
+
 @pytest.fixture(scope='module')
-def target_data(parquet_reader):
-    target_path = '/parquet_data/facility_name_min_time_spent_per_visit_date'
-    target_data = parquet_reader.process(target_path, include_subfolders=True)
+def target_data_factory(parquet_reader):
+    def _factory(target_path, include_subfolders=True):
+        return parquet_reader.process(target_path, include_subfolders=include_subfolders)
+    return _factory
+
+def test_facility_data(target_data_factory):
+    path = '/parquet_data/facility_name_min_time_spent_per_visit_date'
+    target_data = target_data_factory(path)
     return target_data
 
 
