@@ -31,7 +31,3 @@ class PostgresConnectorContextManager:
         df = pd.read_sql_query(sql, self.conn)
         return df
 
-def test_connect():
-    db_connector = db_connection(request)
-    assert db_connector.get_data_sql("select count(*) from patients") == 30
-
