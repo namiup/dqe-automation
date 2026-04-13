@@ -57,7 +57,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest tests ./'PyTest DQ Framework/src/connectors/postgres/postgres_connector' -m "parquet_data" \
+                        pytest ./'PyTest DQ Framework/src/connectors/postgres/postgres_connector' -m "parquet_data" \
                         --db_host="postgres" \
                         --db_port="5432" \
                         --db_name="mydatabase" \
