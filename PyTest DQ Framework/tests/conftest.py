@@ -21,7 +21,7 @@ def pytest_configure(config):
         if not config.getoption(option):
             pytest.fail(f"Missing required option: {option}")
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def db_params(request):
     return {
         "host": request.config.getoption("--db_host"),
