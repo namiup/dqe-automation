@@ -22,17 +22,11 @@ def pytest_configure(config):
             pytest.fail(f"Missing required option: {option}")
 
 @pytest.fixture(scope='session')
-def db_params(request):
-    return {
-        "host": request.config.getoption("--db_host"),
+def db_connection("host": request.config.getoption("--db_host"),
         "port": request.config.getoption("--db_port"),
         "dbname": request.config.getoption("--db_name"),
         "user": request.config.getoption("--db_user"),
-        "password": request.config.getoption("--db_password"),
-    }
-
-@pytest.fixture(scope='session')
-def db_connection(db_params):
+        "password": request.config.getoption("--db_password"),):
     try:
         with PostgresConnectorContextManager(
         db_params["host"],
