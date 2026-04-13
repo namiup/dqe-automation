@@ -26,7 +26,7 @@ def test_connect(db_connection):
 @pytest.fixture(scope='module')
 def source_data(db_connection):
     source_query = """
-    select count(*) from patients
+    select * from patients
     """
     source_data = db_connection.get_data_sql(source_query)
     return source_data
