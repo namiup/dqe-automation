@@ -21,13 +21,21 @@ def pytest_configure(config):
         if not config.getoption(option):
             pytest.fail(f"Missing required option: {option}")
 
+@pytest.fixture
+def db_params(request):
+    return {
+        "host": request.config.getoption("--db_host"),
+        "port": request.config.getoption("--db_port"),
+        "dbname": request.config.getoption("--db_name"),
+        "user": request.config.getoption("--db_user"),
+        "password": request.config.getoption("--db_password"),
+    }
+
 @pytest.fixture(scope='session')
 def db_connection(request):
-    ...
     try:
-        with PostgresConnectorContextManager(...) as db_connector:
+        with PostgresConnectorContextManager(db_params) as db_connector:
             yield db_connector
     except Exception as e:
         pytest.fail(f"Failed to initialize PostgresConnectorContextManager: {e}")
 
-...
