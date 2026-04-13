@@ -50,3 +50,22 @@ def data_quality_library():
         pytest.fail(f"Failed to initialize DataQualityLibrary: {e}")
     finally:
         del data_quality_library
+
+
+from src.connectors.file_system.parquet_reader import ParquetReader
+
+@pytest.fixture(scope='session')
+def parquet_reader(request):
+    try:
+        reader = ParquetReader(None)
+        yield reader
+    except Exception as e:
+        pytest.fail(f"Failed to initialize ParquetReader: {e}")
+    finally:
+        del reader
+
+@pytest.fixture(scope='module')
+def target_data_factory(parquet_reader):
+    def _factory(target_path, include_subfolders=True):
+        return parquet_reader.process(target_path, include_subfolders=include_subfolders)
+    return _factory
