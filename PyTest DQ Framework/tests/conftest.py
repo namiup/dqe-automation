@@ -32,7 +32,7 @@ def db_params(request):
     }
 
 @pytest.fixture(scope='session')
-def db_connection(request):
+def db_connection(db_params):
     try:
         with PostgresConnectorContextManager(db_params) as db_connector:
             yield db_connector
