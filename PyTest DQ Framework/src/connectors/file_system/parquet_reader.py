@@ -1,5 +1,3 @@
-import pandas as pd
-
 class ParquetReader:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -7,12 +5,24 @@ class ParquetReader:
     def read(self, columns=None):
         return pd.read_parquet(self.file_path, columns=columns)
 
-    def process(self, func, columns=None):
+    def process(self, target_path=None, include_subfolders=False):
         """
-        Read the Parquet file and apply a processing function to the DataFrame.
-        :param func: A function that takes a DataFrame and returns a processed DataFrame.
-        :param columns: Optional list of columns to read.
-        :return: Processed DataFrame
+        Process Parquet files at target_path.
+        If include_subfolders is True, process files in subfolders as well.
         """
-        df = self.read(columns=columns)
-        return func(df)
+        import os
+        import glob
+
+        files = []
+        if include_subfolders:
+            # Recursively find all .parquet files
+            files = glob.glob(os.path.join(target_path, '**', '*.parquet'), recursive=True)
+        else:
+            # Only files in the target_path directory
+            files = glob.glob(os.path.join(target_path, '*.parquet'))
+
+        dfs = [pd.read_parquet(f) for f in files]
+        if dfs:
+            return pd.concat(dfs, ignore_index=True)
+        else:
+            return pd.DataFrame()  # Return empty DataFrame if no files found
