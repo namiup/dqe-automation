@@ -20,7 +20,7 @@ def parquet_reader(request):
 @pytest.mark.parquet_data
 def test_connect(db_connection):
     df = db_connection.get_data_sql("select * from patients")
-    assert df.iloc[0, 0] == 30
+    assert len(df) == 30
 
 
 @pytest.fixture(scope='module')
