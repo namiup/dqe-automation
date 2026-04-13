@@ -38,6 +38,7 @@ def target_data_factory(parquet_reader):
         return parquet_reader.process(target_path, include_subfolders=include_subfolders)
     return _factory
 
+@pytest.fixture(scope='module')
 def test_facility_data(target_data_factory):
     path = '/parquet_data/facility_name_min_time_spent_per_visit_date'
     target_data = target_data_factory(path)
