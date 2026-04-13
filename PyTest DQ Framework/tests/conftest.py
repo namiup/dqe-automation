@@ -1,7 +1,7 @@
 import pytest
 from src.connectors.postgres.postgres_connector import PostgresConnectorContextManager
 from src.data_quality.data_quality_validation_library import DataQualityLibrary
-# from src.connectors.file_system.parquet_reader import ParquetReader
+from src.connectors.file_system.parquet_reader import ParquetReader
 
 def pytest_addoption(parser):
     parser.addoption("--db_host", action="store", default="localhost", help="Database host")
@@ -42,3 +42,12 @@ def db_connection(request):
     except Exception as e:
         pytest.fail(f"Failed to initialize PostgresConnectorContextManager: {e}")
 
+@pytest.fixture(scope='session')
+def data_quality_library():
+    try:
+        data_quality_library = DataQualityLibrary()
+        yield data_quality_library
+    except Exception as e:
+        pytest.fail(f"Failed to initialize DataQualityLibrary: {e}")
+    finally:
+        del data_quality_library
