@@ -8,3 +8,7 @@ import pytest
 
 def 
 target_path = '/parquet_data/facility_name_min_time_spent_per_visit_date'
+
+@pytest.mark.parquet_data
+def test_check_dataset_is_not_empty(target_data, data_quality_library):
+    data_quality_library.check_dataset_is_not_empty(target_data)
