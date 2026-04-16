@@ -22,6 +22,6 @@ def test_check_dataset_is_not_empty(test_facility_data, data_quality_library):
 def test_check_duplicates(test_facility_data, data_quality_library):
     data_quality_library.check_duplicates(test_facility_data)
 
-# @pytest.mark.parquet_data
-# def test_check_count(source_data, test_facility_data, data_quality_library):
-#     data_quality_library.check_count(source_data, test_facility_data)
+@pytest.mark.parquet_data
+def test_check_count(source_data, test_facility_data, data_quality_library):
+    data_quality_library.check_count(source_data, test_facility_data)
