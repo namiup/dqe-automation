@@ -156,6 +156,7 @@ class LoadParquet:
         """
         Executes all transformations and loads the results into Parquet files.
         """
+        self.visits_to_parquet()
         self.transform_facility_type_avg_time_spent_per_visit_date()
         self.transform_patient_sum_treatment_cost_per_facility_type()
         self.transform_facility_name_min_time_spent_per_visit_date()
