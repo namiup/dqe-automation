@@ -59,6 +59,9 @@ class LoadParquet:
         self.storage_path_facility_name_min_time_spent_per_visit_date = (
             parquet_storage_config.storage_path_facility_name_min_time_spent_per_visit_date
         )
+        self.storage_path_visits = (
+            parquet_storage_config.storage_path_visits
+        )
 
     def read_data(self, query):
         """
@@ -136,6 +139,16 @@ class LoadParquet:
         self.to_parquet(
             df=df,
             storage_path=self.storage_path_facility_name_min_time_spent_per_visit_date,
+            partition_columns=['partition_date']
+        )
+
+    def visits_to_parquet(self):
+        df = self.read_data("SELECT * FROM VISITS")
+        df['visit_date'] = pd.to_datetime(df['visit_date'])
+        df['partition_date'] = df['visit_date'].dt.to_period('M').astype(str)
+        self.to_parquet(
+            df=df,
+            storage_path=self.storage_path_visits,
             partition_columns=['partition_date']
         )
 
