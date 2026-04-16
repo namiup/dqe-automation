@@ -59,6 +59,12 @@ class LoadParquet:
         self.storage_path_facility_name_min_time_spent_per_visit_date = (
             parquet_storage_config.storage_path_facility_name_min_time_spent_per_visit_date
         )
+        self.storage_path_patients = (
+            parquet_storage_config.storage_path_patients
+        )
+        self.storage_path_facilities = (
+            parquet_storage_config.storage_path_facilities
+        )
         self.storage_path_visits = (
             parquet_storage_config.storage_path_visits
         )
@@ -142,6 +148,20 @@ class LoadParquet:
             partition_columns=['partition_date']
         )
 
+    def patients_to_parquet(self):
+        df = self.read_data("SELECT * FROM PATIENTS")
+        self.to_parquet(
+            df=df,
+            storage_path=self.storage_path_patients
+        )
+
+    def facilities_to_parquet(self):
+        df = self.read_data("SELECT * FROM FACILITIES")
+        self.to_parquet(
+            df=df,
+            storage_path=self.storage_path_facilities
+        )
+
     def visits_to_parquet(self):
         df = self.read_data("SELECT * FROM VISITS")
         df['visit_date'] = pd.to_datetime(df['visit_timestamp'])
@@ -156,6 +176,8 @@ class LoadParquet:
         """
         Executes all transformations and loads the results into Parquet files.
         """
+        self.facilities_to_parquet()
+        self.patients_to_parquet()
         self.visits_to_parquet()
         self.transform_facility_type_avg_time_spent_per_visit_date()
         self.transform_patient_sum_treatment_cost_per_facility_type()
