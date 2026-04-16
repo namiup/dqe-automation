@@ -152,14 +152,16 @@ class LoadParquet:
         df = self.read_data("SELECT * FROM PATIENTS")
         self.to_parquet(
             df=df,
-            storage_path=self.storage_path_patients
+            storage_path=self.storage_path_patients,
+            partition_columns=[]
         )
 
     def facilities_to_parquet(self):
         df = self.read_data("SELECT * FROM FACILITIES")
         self.to_parquet(
             df=df,
-            storage_path=self.storage_path_facilities
+            storage_path=self.storage_path_facilities,
+            partition_columns=[]
         )
 
     def visits_to_parquet(self):
