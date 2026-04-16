@@ -56,6 +56,7 @@ class ParquetStorageConfig:
         storage_path_facility_name_min_time_spent_per_visit_date (str):
         The file system path where Parquet files for facility_name_min_time_spent_per_visit_date will be stored.
     """
+    storage_path_visits: str
     storage_path_facility_type_avg_time_spent_per_visit_date: str
     storage_path_patient_sum_treatment_cost_per_facility_type: str
     storage_path_facility_name_min_time_spent_per_visit_date: str
@@ -114,6 +115,7 @@ data_generator_config = DataGeneratorConfig(
 
 # Instance of ParquetStorageConfig
 parquet_storage_config = ParquetStorageConfig(
+    storage_path_visits='/parquet_data/visits',
     storage_path_facility_type_avg_time_spent_per_visit_date='/parquet_data/'
                                                              'facility_type_avg_time_spent_per_visit_date',
     storage_path_patient_sum_treatment_cost_per_facility_type='/parquet_data/'
