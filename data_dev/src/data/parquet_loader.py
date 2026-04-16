@@ -59,6 +59,9 @@ class LoadParquet:
         self.storage_path_facility_name_min_time_spent_per_visit_date = (
             parquet_storage_config.storage_path_facility_name_min_time_spent_per_visit_date
         )
+        self.storage_path_visits = (
+            parquet_storage_config.storage_path_visits
+        )
 
     def read_data(self, query):
         """
@@ -139,10 +142,18 @@ class LoadParquet:
             partition_columns=['partition_date']
         )
 
+    def visits_generate_parquet(self):
+        df = self.read_data("select * from visits")
+        self.to_parquet(
+            df=df,
+            storage_path=self.storage_path_visits
+        )
+
     def load_parquet(self):
         """
         Executes all transformations and loads the results into Parquet files.
         """
+        self.visits_generate_parquet()
         self.transform_facility_type_avg_time_spent_per_visit_date()
         self.transform_patient_sum_treatment_cost_per_facility_type()
         self.transform_facility_name_min_time_spent_per_visit_date()
