@@ -144,7 +144,7 @@ class LoadParquet:
 
     def visits_to_parquet(self):
         df = self.read_data("SELECT * FROM VISITS")
-        df['visit_date'] = pd.to_datetime(df['visit_date'])
+        df['visit_date'] = pd.to_datetime(df['visit_timestamp'])
         df['partition_date'] = df['visit_date'].dt.to_period('M').astype(str)
         self.to_parquet(
             df=df,
