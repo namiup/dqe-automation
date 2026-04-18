@@ -45,5 +45,5 @@ def test_check_count(source_data, test_facility_data, data_quality_library):
     data_quality_library.check_count(source_data, test_facility_data)
 
 @pytest.mark.parquet_data
-def test_check_not_null_values(target_data, data_quality_library):
-    data_quality_library.check_not_null_values(target_data, ['facility_name','visit_date','min_time_spent'])
+def test_check_not_null_values(test_facility_data, data_quality_library):
+    data_quality_library.check_not_null_values(test_facility_data, ['facility_name','visit_date','min_time_spent'])
