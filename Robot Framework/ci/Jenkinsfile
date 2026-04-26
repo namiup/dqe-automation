@@ -30,11 +30,11 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Create a virtual environment
                     sh '''
                         python3 -m venv venv
                         . venv/bin/activate
                         apt-get update
+                        # Install all required system libraries and tools
                         apt-get install -y \
                             wget \
                             gnupg \
@@ -48,11 +48,12 @@ pipeline {
                             libatk1.0-0 \
                             libatk-bridge2.0-0 \
                             libgtk-3-0
-                        apt-get install -y wget gnupg
+                        # Add Google Chrome repository and install Chrome
                         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-chrome.gpg
                         echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
                         apt-get update
                         apt-get install -y google-chrome-stable
+                        # Install Python dependencies
                         pip install -r 'Robot Framework'/requirements.txt
                     '''
                 }
