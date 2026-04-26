@@ -1,12 +1,12 @@
 *** Settings ***
-Library           SeleniumLibrary
+Library    SeleniumLibrary
 
 *** Variables ***
-${URL}            https://apple.com
+${REMOTE_URL}    http://localhost:4444/wd/hub
 
 *** Test Cases ***
 Verify Login
     [Tags]    smoke
-    Open Browser    ${URL}    Chrome    arguments=--headless --no-sandbox --disable-dev-shm-usage
+    Open Browser    https://apple.com    chrome    remote_url=${REMOTE_URL}
     Title Should Be    Apple
     [Teardown]    Close Browser
