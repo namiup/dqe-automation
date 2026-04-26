@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        any {
+        docker {
             image 'selenium/standalone-chrome:latest'
             args '-u root'
         }
