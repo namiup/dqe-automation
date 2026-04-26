@@ -39,7 +39,6 @@ pipeline {
                             wget \
                             gnupg \
                             libnss3 \
-                            libgconf-2-4 \
                             libxi6 \
                             libxcursor1 \
                             libxss1 \
