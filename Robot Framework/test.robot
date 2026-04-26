@@ -1,8 +1,9 @@
 *** Settings ***
 Library           SeleniumLibrary
+Library    OperatingSystem
 
 *** Variables ***
-${URL_FILE}            requirements.txt
+${URL_FILE}            report.html
 
 *** Test Cases ***
 Verify Login
