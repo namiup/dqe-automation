@@ -33,27 +33,6 @@ pipeline {
                     sh '''
                         python3 -m venv venv
                         . venv/bin/activate
-                        apt-get update
-                        # Install all required system libraries and tools
-                        apt-get install -y \
-                            wget \
-                            gnupg \
-                            libnss3 \
-                            libxi6 \
-                            libxcursor1 \
-                            libxss1 \
-                            libxcomposite1 \
-                            libxrandr2 \
-                            libasound2 \
-                            libatk1.0-0 \
-                            libatk-bridge2.0-0 \
-                            libgtk-3-0
-                        # Add Google Chrome repository and install Chrome
-                        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-chrome.gpg
-                        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-                        apt-get update
-                        apt-get install -y google-chrome-stable
-                        # Install Python dependencies
                         pip install -r 'Robot Framework'/requirements.txt
                     '''
                 }
@@ -71,6 +50,41 @@ pipeline {
                 }
             }
         }
+        stage('Install Chrome and ChromeDriver') {
+            steps {
+                sh '''
+                    set -e
+        
+                    # Install dependencies
+                    apt-get update
+                    apt-get install -y wget gnupg unzip curl \
+                        libnss3 libxi6 libxcursor1 libxss1 libxcomposite1 libxrandr2 libasound2 libatk1.0-0 libatk-bridge2.0-0 libgtk-3-0
+        
+                    # Add Google Chrome repository and install Chrome
+                    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-chrome.gpg
+                    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+                    apt-get update
+                    apt-get install -y google-chrome-stable
+        
+                    # Get Chrome version
+                    CHROME_VERSION=$(google-chrome --version | grep -oP '\\d+\\.\\d+\\.\\d+')
+                    CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d. -f1)
+        
+                    # Get matching ChromeDriver version
+                    DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
+        
+                    # Download and install ChromeDriver
+                    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
+                    unzip -o /tmp/chromedriver.zip -d /usr/local/bin/
+                    chmod +x /usr/local/bin/chromedriver
+                    rm /tmp/chromedriver.zip
+        
+                    # Verify versions
+                    echo "Google Chrome version: $(google-chrome --version)"
+                    echo "ChromeDriver version: $(chromedriver --version)"
+                '''
+            }
+        }                                                
         stage('Run Tests') {
             steps {
                 script {
