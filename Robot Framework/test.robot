@@ -2,11 +2,12 @@
 Library           SeleniumLibrary
 
 *** Variables ***
-${URL}            requirements.txt
+${URL_FILE}            requirements.txt
 
 *** Test Cases ***
 Verify Login
     [Tags]    smoke
-    Open Browser    Get File    ${URL}    Chrome    arguments=--headless --no-sandbox --disable-dev-shm-usage
+    ${url}=    Get File    ${URL_FILE}
+    Open Browser    ${url}    Chrome    arguments=--headless --no-sandbox --disable-dev-shm-usage
     Title Should Be    Apple
     [Teardown]    Close Browser
