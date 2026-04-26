@@ -57,7 +57,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        robot --include smoke 'Robot Framework'
+                        robot --include smoke 'Robot Framework/test.robot'
                     '''
                 }
             }
