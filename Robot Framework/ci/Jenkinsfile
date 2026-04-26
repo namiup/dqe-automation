@@ -1,11 +1,14 @@
 pipeline {
-    agent {
-        docker {
-            image 'selenium/standalone-chrome:latest'
-            args '-u root'
-        }
-    }
+    agent any
     stages {
+        stage('Start Selenium Chrome Container') {
+            steps {
+                sh '''
+                    podman pull selenium/standalone-chrome:latest
+                    podman run -d --name selenium-chrome -p 4444:4444 selenium/standalone-chrome:latest
+                '''
+            }
+        }
         stage('Clone Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/namiup/dqe-automation/'
@@ -27,6 +30,14 @@ pipeline {
                 sh '''
                     . venv/bin/activate
                     robot --include smoke 'Robot Framework/test.robot'
+                '''
+            }
+        }
+        stage('Cleanup Selenium Container') {
+            steps {
+                sh '''
+                    podman stop selenium-chrome || true
+                    podman rm selenium-chrome || true
                 '''
             }
         }
