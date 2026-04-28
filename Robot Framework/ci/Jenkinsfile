@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         POSTGRES_SECRET = credentials('jenkins-postgres-credentials')
-        PATH = "/usr/local/bin:$PATH"  // Add chromedriver path to PATH
+        PATH = "/usr/local/bin/chromedriver:$PATH"  // Add chromedriver path to PATH
     }
     stages {
         stage('Update Packages') {
