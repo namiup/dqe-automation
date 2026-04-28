@@ -10,3 +10,4 @@ Verify Login
     [Tags]    smoke
     File Should Exist    ${URL_FILE}
     ${url}=    Get File    ${URL_FILE}
+    Open Browser    ${url}    Chrome
