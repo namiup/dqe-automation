@@ -1,106 +1,34 @@
-pipeline {
-    agent any
-    environment {
-        CHROME_VERSION = '148.0.7778.56' // Define the desired Chrome version
-    }
-    stages {
-        stage('Check Chrome Version') {
-            steps {
-                script {
-                    def installedVersion = sh(
-                        script: "google-chrome --version || echo 'not_installed'",
-                        returnStdout: true
-                    ).trim()
-
-                    if (installedVersion == 'not_installed') {
-                        echo "Chrome is not installed. Proceeding with installation."
-                    } else {
-                        echo "Installed Chrome version: ${installedVersion}"
-                        if (installedVersion.contains(env.CHROME_VERSION)) {
-                            echo "Chrome is already up-to-date. Skipping installation."
-                            currentBuild.result = 'SUCCESS'
-                            return
-                        } else {
-                            echo "Chrome version mismatch. Updating Chrome to version ${env.CHROME_VERSION}."
-                        }
-                    }
-                }
-            }
-        }
-        stage('Install Chrome for Testing') {
-            when {
-                expression {
-                    def installedVersion = sh(
-                        script: "google-chrome --version || echo 'not_installed'",
-                        returnStdout: true
-                    ).trim()
-                    return installedVersion == 'not_installed' || !installedVersion.contains(env.CHROME_VERSION)
-                }
-            }
-            steps {
-                script {
-                    sh '''
-                        # Update package lists and install dependencies
-                        apt-get update
-                        apt-get install -y wget unzip xvfb
-
-                        # Download Chrome for Testing binary
-                        wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip -O chrome-linux64.zip
-
-                        # Extract the binary
-                        unzip chrome-linux64.zip -d /opt/google/chrome
-
-                        # Create a symbolic link
-                        ln -sf /opt/google/chrome/chrome-linux64/chrome /usr/bin/google-chrome
-
-                        # Clear old Chrome cache
-                        rm -rf ~/.cache/google-chrome
-                        rm -rf ~/.config/google-chrome
-
-                        # Verify the installed version
-                        google-chrome --version
-                    '''
-                }
-            }
-        }
-        stage('Install ChromeDriver') {
-            when {
-                expression {
-                    def installedVersion = sh(
-                        script: "chromedriver --version || echo 'not_installed'",
-                        returnStdout: true
-                    ).trim()
-                    return installedVersion == 'not_installed' || !installedVersion.contains(env.CHROME_VERSION)
-                }
-            }
-            steps {
-                script {
-                    sh '''
-                        # Download ChromeDriver binary
-                        wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
-
-                        # Extract the binary
-                        unzip chromedriver-linux64.zip -d /usr/local/bin
-
-                        # Set permissions
-                        chmod +x /usr/local/bin/chromedriver
-
-                        # Verify the installed version
-                        chromedriver --version
-                    '''
-                }
-            }
+stage('Install ChromeDriver') {
+    when {
+        expression {
+            def installedVersion = sh(
+                script: "chromedriver --version || echo 'not_installed'",
+                returnStdout: true
+            ).trim()
+            return installedVersion == 'not_installed' || !installedVersion.contains(env.CHROME_VERSION)
         }
     }
-    post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
-        success {
-            echo 'Chrome for Testing and ChromeDriver installed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs for details.'
+    steps {
+        script {
+            sh '''
+                # Download ChromeDriver binary
+                wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
+
+                # Extract the binary
+                unzip chromedriver-linux64.zip -d /usr/local/bin
+
+                # Move the chromedriver binary to /usr/local/bin
+                mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/
+
+                # Clean up the extracted folder
+                rm -rf /usr/local/bin/chromedriver-linux64
+
+                # Set permissions
+                chmod +x /usr/local/bin/chromedriver
+
+                # Verify the installed version
+                chromedriver --version
+            '''
         }
     }
 }
