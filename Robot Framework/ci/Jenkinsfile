@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         POSTGRES_SECRET = credentials('jenkins-postgres-credentials')
-        PATH = "/usr/local/bin/chromedriver:$PATH"  // Add chromedriver path to PATH
+        PATH = "/usr/local/bin:$PATH"  // Add chromedriver path to PATH
     }
     stages {
         stage('Update Packages') {
@@ -10,6 +10,8 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
+                        set -e  # Exit immediately if a command exits with a non-zero status
+                        
                         # Update the package list
                         apt-get update
                         
@@ -28,6 +30,8 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
+                        set -e  # Exit immediately if a command exits with a non-zero status
+                        
                         # Install Python and pip
                         apt-get install -y python3 python3-pip python3-venv
                     '''
@@ -47,9 +51,12 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
+                        set -e  # Exit immediately if a command exits with a non-zero status
+                        
                         # Create a virtual environment and install dependencies
                         python3 -m venv venv
                         . venv/bin/activate  # Use . instead of source for compatibility with sh
+                        pip install --upgrade pip
                         pip install -r 'Robot Framework'/requirements.txt
                     '''
                 }
@@ -60,6 +67,8 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
+                        set -e  # Exit immediately if a command exits with a non-zero status
+                        
                         # Activate the virtual environment, set PYTHONPATH, and run the main script
                         . venv/bin/activate  # Use . instead of source for compatibility with sh
                         export PYTHONPATH=$WORKSPACE
@@ -73,6 +82,8 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
+                        set -e  # Exit immediately if a command exits with a non-zero status
+                        
                         # Activate the virtual environment and run Robot Framework tests
                         . venv/bin/activate  # Use . instead of source for compatibility with sh
                         robot --include smoke --variable executable_path:/usr/local/bin/chromedriver --variable options:add_argument("--headless") 'Robot Framework/test.robot'
