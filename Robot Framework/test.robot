@@ -14,5 +14,5 @@ Open Google Headless
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     Open Browser    ${url}    chrome    options=${options}
-    Title Should Be    Apple
+    Title Should Be    GreenApple
     [Teardown]    Close Browser
