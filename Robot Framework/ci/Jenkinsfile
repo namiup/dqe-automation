@@ -10,7 +10,7 @@ pipeline {
                 script {
                     sh '''
                         apt-get update
-                        apt-get install -y libpq-dev libnss3 libgconf-2-4 libxi6 libgdk-pixbuf2.0-0 libxcomposite1 libxrandr2 libxdamage1 libxext6 libxshmfence1 libx11-xcb1 libxtst6 libegl1-mesa
+                        apt-get install -y libpq-dev libnss3 libxi6 libgdk-pixbuf-2.0-0 libxcomposite1 libxrandr2 libxdamage1 libxext6 libxshmfence1 libx11-xcb1 libxtst6 libegl1
                     '''
                 }
             }
