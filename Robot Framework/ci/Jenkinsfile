@@ -1,29 +1,37 @@
 pipeline {
     agent any
+    environment {
+        CHROME_VERSION = '148.0.7778.56'
+    }
     stages {
-        stage('Install Chrome for Testing') {
+        stage('Install ChromeDriver') {
             steps {
                 script {
                     sh '''
-                        # Update package lists and install dependencies
-                        apt-get update
-                        apt-get install -y wget unzip
+                        # Download ChromeDriver binary
+                        echo "Downloading ChromeDriver for Chrome version ${CHROME_VERSION}..."
+                        wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
 
-                        # Download Chrome for Testing binary
-                        wget https://storage.googleapis.com/chrome-for-testing-public/148.0.7778.56/linux64/chrome-linux64.zip -O chrome-linux64.zip
+                        # Extract the binary and overwrite existing files
+                        echo "Extracting ChromeDriver..."
+                        unzip -o chromedriver-linux64.zip -d /usr/local/bin
 
-                        # Extract the binary
-                        unzip chrome-linux64.zip -d /opt/google/chrome
+                        # Move the chromedriver binary to /usr/local/bin
+                        echo "Moving ChromeDriver binary to /usr/local/bin..."
+                        mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/
 
-                        # Create a symbolic link
-                        ln -sf /opt/google/chrome/chrome-linux64/chrome /usr/bin/google-chrome
+                        # Clean up the extracted folder
+                        echo "Cleaning up..."
+                        rm -rf /usr/local/bin/chromedriver-linux64
+                        rm -f chromedriver-linux64.zip
 
-                        # Clear old Chrome cache
-                        rm -rf ~/.cache/google-chrome
-                        rm -rf ~/.config/google-chrome
+                        # Set permissions
+                        echo "Setting permissions for ChromeDriver..."
+                        chmod +x /usr/local/bin/chromedriver
 
                         # Verify the installed version
-                        google-chrome --version
+                        echo "Verifying ChromeDriver installation..."
+                        chromedriver --version
                     '''
                 }
             }
@@ -34,10 +42,10 @@ pipeline {
             echo 'Pipeline execution completed.'
         }
         success {
-            echo 'Chrome for Testing installed successfully!'
+            echo 'ChromeDriver installed successfully!'
         }
         failure {
-            echo 'Failed to install Chrome for Testing. Please check the logs for details.'
+            echo 'Pipeline failed. Please check the logs for details.'
         }
     }
 }
