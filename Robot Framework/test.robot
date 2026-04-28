@@ -1,11 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
 
-*** Variables ***
-${URL}     https://www.apple.com
-
 *** Test Cases ***
-Open Apple Website
-    Open Browser    ${URL}    chrome    options=add_argument(--headless),add_argument(--no-sandbox),add_argument(--disable-dev-shm-usage)
-    Title Should Be    Apple
+Open Google Headless
+    Open Browser    https://www.google.com    chrome    options=add_argument(--headless),add_argument(--no-sandbox),add_argument(--disable-dev-shm-usage)
     [Teardown]    Close Browser
