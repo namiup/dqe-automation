@@ -1,3 +1,6 @@
+*** Settings ***
+Library    SeleniumLibrary
+
 *** Variables ***
 @{CHROME_OPTS}    --headless    --no-sandbox    --disable-dev-shm-usage
 
