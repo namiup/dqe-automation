@@ -13,7 +13,7 @@ pipeline {
                         # Update the package list
                         apt-get update
                         
-                        # Install required dependencies
+                        # Install required dependencies for Chrome and ChromeDriver
                         apt-get install -y libpq-dev libnss3 libxi6 libgdk-pixbuf-2.0-0 libxcomposite1 libxrandr2 libxdamage1 libxext6 libxshmfence1 libx11-xcb1 libxtst6 libegl1
                         
                         # Install libgconf-2-4 from an alternative source
@@ -49,7 +49,7 @@ pipeline {
                         #!/bin/bash
                         # Create a virtual environment and install dependencies
                         python3 -m venv venv
-                        source venv/bin/activate
+                        . venv/bin/activate  # Use . instead of source for compatibility with sh
                         pip install -r 'Robot Framework'/requirements.txt
                     '''
                 }
@@ -61,7 +61,7 @@ pipeline {
                     sh '''
                         #!/bin/bash
                         # Activate the virtual environment, set PYTHONPATH, and run the main script
-                        source venv/bin/activate
+                        . venv/bin/activate  # Use . instead of source for compatibility with sh
                         export PYTHONPATH=$WORKSPACE
                         python data_dev/main.py
                     '''
@@ -74,7 +74,7 @@ pipeline {
                     sh '''
                         #!/bin/bash
                         # Activate the virtual environment and run Robot Framework tests
-                        source venv/bin/activate
+                        . venv/bin/activate  # Use . instead of source for compatibility with sh
                         robot --include smoke --variable executable_path:/usr/local/bin/chromedriver --variable options:add_argument("--headless") 'Robot Framework/test.robot'
                     '''
                 }
