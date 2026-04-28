@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        POSTGRES_SECRET = credentials('jenkins-postgres-credentials')
-    }
     stages {
         stage('Update Packages') {
             steps {
@@ -19,48 +16,11 @@ pipeline {
                         # Update package list again to include the Chrome repository
                         apt-get update
 
-                        # Install or upgrade Google Chrome to the latest version
+                        # Force install the latest version of Google Chrome
                         apt-get install -y google-chrome-stable
 
                         # Verify the installed version of Google Chrome
                         google-chrome --version
-                    '''
-                }
-            }
-        }
-        stage('Install Python') {
-            steps {
-                sh 'apt-get install -y python3 python3-pip python3-venv'
-            }
-        }
-        stage('Clone Repository') {
-            steps {
-                script {
-                    git branch: 'main', url: 'https://github.com/namiup/dqe-automation/'
-                }
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    sh '''
-                        python3 -m venv venv
-                        . venv/bin/activate
-                        pip install -r 'Robot Framework'/requirements.txt
-                    '''
-                }
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                script {
-                    sh '''
-                        # Start a virtual display for headless Chrome
-                        Xvfb :99 -ac &
-                        export DISPLAY=:99
-
-                        # Activate the virtual environment and run Robot Framework tests
-                        . venv/bin/activate
                     '''
                 }
             }
@@ -71,10 +31,10 @@ pipeline {
             echo 'Pipeline execution completed.'
         }
         success {
-            echo 'Pipeline executed successfully!'
+            echo 'Google Chrome updated successfully!'
         }
         failure {
-            echo 'Pipeline failed. Please check the logs for details.'
+            echo 'Failed to update Google Chrome. Please check the logs for details.'
         }
     }
 }
