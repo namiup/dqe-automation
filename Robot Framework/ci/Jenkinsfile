@@ -1,25 +1,28 @@
 pipeline {
     agent any
     stages {
-        stage('Update Packages') {
+        stage('Install Chrome for Testing') {
             steps {
                 script {
                     sh '''
                         # Update package lists and install dependencies
                         apt-get update
-                        apt-get install -y curl gnupg wget
+                        apt-get install -y wget unzip
 
-                        # Add Google Chrome repository
-                        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome.gpg
-                        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+                        # Download Chrome for Testing binary
+                        wget https://storage.googleapis.com/chrome-for-testing-public/148.0.7778.56/linux64/chrome-linux64.zip -O chrome-linux64.zip
 
-                        # Update package list again to include the Chrome repository
-                        apt-get update
+                        # Extract the binary
+                        unzip chrome-linux64.zip -d /opt/google/chrome
 
-                        # Force install the latest version of Google Chrome
-                        apt-get install -y google-chrome-stable
+                        # Create a symbolic link
+                        ln -sf /opt/google/chrome/chrome-linux64/chrome /usr/bin/google-chrome
 
-                        # Verify the installed version of Google Chrome
+                        # Clear old Chrome cache
+                        rm -rf ~/.cache/google-chrome
+                        rm -rf ~/.config/google-chrome
+
+                        # Verify the installed version
                         google-chrome --version
                     '''
                 }
@@ -31,10 +34,10 @@ pipeline {
             echo 'Pipeline execution completed.'
         }
         success {
-            echo 'Google Chrome updated successfully!'
+            echo 'Chrome for Testing installed successfully!'
         }
         failure {
-            echo 'Failed to update Google Chrome. Please check the logs for details.'
+            echo 'Failed to install Chrome for Testing. Please check the logs for details.'
         }
     }
 }
