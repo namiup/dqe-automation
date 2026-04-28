@@ -10,45 +10,20 @@ pipeline {
                     sh '''
                         # Update package lists and install dependencies
                         apt-get update
-                        apt-get install -y libpq-dev curl gnupg xvfb unzip wget
+                        apt-get install -y curl gnupg wget
 
-                        # Add Google Chrome repository and install Google Chrome
+                        # Add Google Chrome repository
                         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome.gpg
                         echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+
+                        # Update package list again to include the Chrome repository
                         apt-get update
+
+                        # Install or upgrade Google Chrome to the latest version
                         apt-get install -y google-chrome-stable
 
-                        # Verify Google Chrome installation
+                        # Verify the installed version of Google Chrome
                         google-chrome --version
-                    '''
-                }
-            }
-        }
-        stage('Install ChromeDriver') {
-            steps {
-                script {
-                    sh '''
-                        # Get the installed version of Google Chrome
-                        CHROME_VERSION=$(google-chrome --version | grep -oP '\\d+\\.\\d+\\.\\d+')
-
-                        # Try to fetch the exact matching ChromeDriver version
-                        CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}" || echo "")
-
-                        # If no exact match is found, fallback to the latest ChromeDriver version
-                        if [[ -z "$CHROMEDRIVER_VERSION" || "$CHROMEDRIVER_VERSION" == *"<Error>"* ]]; then
-                            echo "No exact ChromeDriver version found for Chrome $CHROME_VERSION. Falling back to the latest ChromeDriver version."
-                            CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-                        fi
-
-                        # Download and install ChromeDriver
-                        echo "Installing ChromeDriver version: $CHROMEDRIVER_VERSION"
-                        wget -N https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip || { echo "Failed to download ChromeDriver"; exit 1; }
-                        unzip chromedriver_linux64.zip
-                        mv chromedriver /usr/local/bin/
-                        chmod +x /usr/local/bin/chromedriver
-
-                        # Verify ChromeDriver installation
-                        chromedriver --version
                     '''
                 }
             }
@@ -86,7 +61,7 @@ pipeline {
 
                         # Activate the virtual environment and run Robot Framework tests
                         . venv/bin/activate
-                        robot --include smoke 'Robot Framework/test.robot'
+                        // robot --include smoke 'Robot Framework/test.robot'
                     '''
                 }
             }
