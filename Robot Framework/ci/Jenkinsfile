@@ -5,25 +5,6 @@ pipeline {
         PATH = "/usr/local/bin:$PATH"  // Add chromedriver path to PATH
     }
     stages {
-        stage('Update Packages') {
-            steps {
-                script {
-                    sh '''
-                        #!/bin/bash
-                        set -e
-                        # Update the package list
-                        apt-get update
-                        
-                        # Install required dependencies for Chrome and ChromeDriver
-                        apt-get install -y libpq-dev libnss3 libxi6 libgdk-pixbuf-2.0-0 libxcomposite1 libxrandr2 libxdamage1 libxext6 libxshmfence1 libx11-xcb1 libxtst6 libegl1
-                        
-                        # Install libgconf-2-4 from an alternative source
-                        wget http://security.ubuntu.com/ubuntu/pool/universe/g/gconf/libgconf-2-4_3.2.6-4ubuntu1_amd64.deb
-                        dpkg -i libgconf-2-4_3.2.6-4ubuntu1_amd64.deb || apt-get install -f -y
-                    '''
-                }
-            }
-        }
         stage('Install Python') {
             steps {
                 script {
@@ -81,7 +62,7 @@ pipeline {
                         set -e
                         # Activate the virtual environment and run Robot Framework tests
                         . venv/bin/activate
-                        robot --include smoke --variable executable_path:/usr/local/bin/chromedriver --variable options:add_argument("--headless") 'Robot Framework/test.robot'
+                        robot --include smoke 'Robot Framework/test.robot'
                     '''
                 }
             }
