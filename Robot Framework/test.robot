@@ -9,6 +9,6 @@ ${URL_FILE}            report.html
 Verify Login
     [Tags]    smoke
     ${url}=    Get File    ${URL_FILE}
-    Open Browser    ${url}    Edge
+    Open Browser    ${url}    Chrome    options=add_argument("--headless")
     Title Should Be    Apple
     [Teardown]    Close Browser
