@@ -3,7 +3,7 @@ Library    SeleniumLibrary
 Library    OperatingSystem
 
 *** Variables ***
-${URL_FILE}            /report.html
+${URL_FILE}            report.html
 
 *** Test Cases ***
 Verify Login
