@@ -1,53 +1,25 @@
-pipeline {
-    agent any
-    environment {
-        CHROME_VERSION = '148.0.7778.56' // Define the desired Chrome version
-    }
-    stages {
-        stage('Install ChromeDriver') {
-            when {
-                expression {
-                    def installedVersion = sh(
-                        script: "chromedriver --version || echo 'not_installed'",
-                        returnStdout: true
-                    ).trim()
-                    return installedVersion == 'not_installed' || !installedVersion.contains(env.CHROME_VERSION)
-                }
-            }
-            steps {
-                script {
-                    sh '''
-                        # Download ChromeDriver binary
-                        wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
+stage('Install ChromeDriver') {
+    steps {
+        script {
+            sh '''
+                # Download ChromeDriver binary
+                wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
 
-                        # Extract the binary
-                        unzip chromedriver-linux64.zip -d /usr/local/bin
+                # Extract the binary and overwrite existing files without prompting
+                unzip -o chromedriver-linux64.zip -d /usr/local/bin
 
-                        # Move the chromedriver binary to /usr/local/bin
-                        mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/
+                # Move the chromedriver binary to /usr/local/bin
+                mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/
 
-                        # Clean up the extracted folder
-                        rm -rf /usr/local/bin/chromedriver-linux64
+                # Clean up the extracted folder
+                rm -rf /usr/local/bin/chromedriver-linux64
 
-                        # Set permissions
-                        chmod +x /usr/local/bin/chromedriver
+                # Set permissions
+                chmod +x /usr/local/bin/chromedriver
 
-                        # Verify the installed version
-                        chromedriver --version
-                    '''
-                }
-            }
-        }
-    }
-    post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
-        success {
-            echo 'ChromeDriver installed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs for details.'
+                # Verify the installed version
+                chromedriver --version
+            '''
         }
     }
 }
