@@ -5,7 +5,7 @@ Library    SeleniumLibrary
 ${URL}     https://www.apple.com
 
 *** Test Cases ***
-Open Example Website
-    Open Browser    ${URL}    chrome
+Open Apple Website
+    Open Browser    ${URL}    chrome    options=add_argument(--headless),add_argument(--no-sandbox),add_argument(--disable-dev-shm-usage)
     Title Should Be    Apple
     [Teardown]    Close Browser
