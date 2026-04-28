@@ -1,28 +1,28 @@
 pipeline {
     agent any
     environment {
-    POSTGRES_SECRET = credentials('jenkins-postgres-credentials')
+        POSTGRES_SECRET = credentials('jenkins-postgres-credentials')
+        PATH = "/usr/local/bin:$PATH"  // Add chromedriver path to PATH
     }
     stages {
         stage('Update Packages') {
             steps {
                 script {
-                    // Update the package list
-                    sh 'apt-get update'
-                    sh 'apt-get install -y libpq-dev'
+                    sh '''
+                        apt-get update
+                        apt-get install -y libpq-dev libnss3 libgconf-2-4 libxi6 libgdk-pixbuf2.0-0 libxcomposite1 libxrandr2 libxdamage1 libxext6 libxshmfence1 libx11-xcb1 libxtst6 libegl1-mesa
+                    '''
                 }
             }
         }
         stage('Install Python') {
             steps {
-                // Install Python and pip
                 sh 'apt-get install -y python3 python3-pip python3-venv'
             }
         }
         stage('Clone Repository') {
             steps {
                 script {
-                    // Clone the Git repository
                     git branch: 'main', url: 'https://github.com/namiup/dqe-automation/'
                 }
             }
@@ -30,7 +30,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Create a virtual environment
                     sh '''
                         python3 -m venv venv
                         . venv/bin/activate
@@ -42,7 +41,6 @@ pipeline {
         stage('Run main') {
             steps {
                 script {
-                    // Activate the virtual environment, set PYTHONPATH, and run the script
                     sh '''
                         . venv/bin/activate
                         export PYTHONPATH=$WORKSPACE
@@ -56,7 +54,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        robot --include smoke 'Robot Framework/test.robot'
+                        robot --include smoke --variable executable_path:/usr/local/bin/chromedriver --variable options:add_argument("--headless") 'Robot Framework/test.robot'
                     '''
                 }
             }
