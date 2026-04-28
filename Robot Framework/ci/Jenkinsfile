@@ -62,7 +62,7 @@ pipeline {
                         set -e
                         # Activate the virtual environment and run Robot Framework tests
                         . venv/bin/activate
-                        robot --include smoke 'Robot Framework/test.robot'
+                        robot 'Robot Framework/test.robot'
                     '''
                 }
             }
