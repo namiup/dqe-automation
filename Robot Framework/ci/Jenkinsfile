@@ -10,8 +10,7 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
-                        set -e  # Exit immediately if a command exits with a non-zero status
-                        
+                        set -e
                         # Update the package list
                         apt-get update
                         
@@ -30,8 +29,7 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
-                        set -e  # Exit immediately if a command exits with a non-zero status
-                        
+                        set -e
                         # Install Python and pip
                         apt-get install -y python3 python3-pip python3-venv
                     '''
@@ -51,11 +49,10 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
-                        set -e  # Exit immediately if a command exits with a non-zero status
-                        
+                        set -e
                         # Create a virtual environment and install dependencies
                         python3 -m venv venv
-                        . venv/bin/activate  # Use . instead of source for compatibility with sh
+                        . venv/bin/activate
                         pip install --upgrade pip
                         pip install -r 'Robot Framework'/requirements.txt
                     '''
@@ -67,10 +64,9 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
-                        set -e  # Exit immediately if a command exits with a non-zero status
-                        
+                        set -e
                         # Activate the virtual environment, set PYTHONPATH, and run the main script
-                        . venv/bin/activate  # Use . instead of source for compatibility with sh
+                        . venv/bin/activate
                         export PYTHONPATH=$WORKSPACE
                         python data_dev/main.py
                     '''
@@ -82,10 +78,9 @@ pipeline {
                 script {
                     sh '''
                         #!/bin/bash
-                        set -e  # Exit immediately if a command exits with a non-zero status
-                        
+                        set -e
                         # Activate the virtual environment and run Robot Framework tests
-                        . venv/bin/activate  # Use . instead of source for compatibility with sh
+                        . venv/bin/activate
                         robot --include smoke --variable executable_path:/usr/local/bin/chromedriver --variable options:add_argument("--headless") 'Robot Framework/test.robot'
                     '''
                 }
