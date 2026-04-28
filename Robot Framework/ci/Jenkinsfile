@@ -28,25 +28,7 @@ pipeline {
                 }
             }
         }
-        stage('Install ChromeDriver') {
-            steps {
-                script {
-                    sh '''
-                        # Download ChromeDriver binary
-                        wget https://storage.googleapis.com/chrome-for-testing-public/148.0.7778.56/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
 
-                        # Extract the binary
-                        unzip chromedriver-linux64.zip -d /usr/local/bin
-
-                        # Set permissions
-                        chmod +x /usr/local/bin/chromedriver
-
-                        # Verify the installed version
-                        chromedriver --version
-                    '''
-                }
-            }
-        }
         stage('Install Python') {
             steps {
                 script {
