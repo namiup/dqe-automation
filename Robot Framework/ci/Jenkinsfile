@@ -1,25 +1,43 @@
-stage('Install ChromeDriver') {
-    steps {
-        script {
-            sh '''
-                # Download ChromeDriver binary
-                wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip -O chromedriver-linux64.zip
+pipeline {
+    agent any
+    stages {
+        stage('Install Chrome for Testing') {
+            steps {
+                script {
+                    sh '''
+                        # Update package lists and install dependencies
+                        apt-get update
+                        apt-get install -y wget unzip
 
-                # Extract the binary and overwrite existing files without prompting
-                unzip -o chromedriver-linux64.zip -d /usr/local/bin
+                        # Download Chrome for Testing binary
+                        wget https://storage.googleapis.com/chrome-for-testing-public/148.0.7778.56/linux64/chrome-linux64.zip -O chrome-linux64.zip
 
-                # Move the chromedriver binary to /usr/local/bin
-                mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/
+                        # Extract the binary
+                        unzip chrome-linux64.zip -d /opt/google/chrome
 
-                # Clean up the extracted folder
-                rm -rf /usr/local/bin/chromedriver-linux64
+                        # Create a symbolic link
+                        ln -sf /opt/google/chrome/chrome-linux64/chrome /usr/bin/google-chrome
 
-                # Set permissions
-                chmod +x /usr/local/bin/chromedriver
+                        # Clear old Chrome cache
+                        rm -rf ~/.cache/google-chrome
+                        rm -rf ~/.config/google-chrome
 
-                # Verify the installed version
-                chromedriver --version
-            '''
+                        # Verify the installed version
+                        google-chrome --version
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Chrome for Testing installed successfully!'
+        }
+        failure {
+            echo 'Failed to install Chrome for Testing. Please check the logs for details.'
         }
     }
 }
