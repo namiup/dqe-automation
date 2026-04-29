@@ -21,4 +21,4 @@ Read Html Data
     File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
     Log    ${data}
-    Should Contain    ${data}    Bob
+    Should Contain    ${data}    Bos
