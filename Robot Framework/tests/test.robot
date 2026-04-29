@@ -22,7 +22,7 @@ Read Html Data
     File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
     Log    ${data}
-    Should Contain    ${data}    Bos
+    Should Contain    ${data}    Bob
 
 Read Parquet Data
     ${data}=    Read Parquet File    ${PARQUET_FILE}
