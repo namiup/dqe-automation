@@ -15,7 +15,8 @@ def read_html_file(file_path):
     if len(dataframes) == 0:
         raise ValueError("No tables found in the HTML file.")
 
-    df = dataframes[0][[patient_id]]
+    df = dataframes[0]
+    df = df[['patient_id']]
     
     # Return the first table as a DataFrame
     return df
