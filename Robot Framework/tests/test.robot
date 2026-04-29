@@ -31,22 +31,29 @@ Read Parquet Data
     ${data}=    Read Parquet File    ${PARQUET_FOLDER}    ${DATE_COLUMN}    ${START_DATE}    ${END_DATE}
     Log    ${data}
 
-Compare HTML and Parquet Data
-    # Step 1: Read HTML data
-    ${html_path}=    Normalize Path    ${HTML_FILE}
-    File Should Exist    ${html_path}
-    ${html_data}=    Evaluate    libraries.helper.read_html_file("${html_path}")
+def compare_dataframes_and_return_differences(df1, df2):
+    """
+    Compares two Pandas DataFrames for an exact match and returns the differences.
 
-    # Step 2: Read Parquet data
-    ${parquet_data}=    Evaluate    libraries.helper.read_parquet_file("${PARQUET_FOLDER}", "${DATE_COLUMN}", "${START_DATE}", "${END_DATE}")
+    Args:
+        df1: First DataFrame.
+        df2: Second DataFrame.
 
-    # Step 4: Compare DataFrames
-    ${comparison_result}=    Evaluate    libraries.helper.compare_dataframes(pd.Series(${parquet_data}), pd.Series(${parquet_data}))    modules=pandas
-    Log    ${comparison_result}
-
-    # Step 5: Validate the comparison result
-    Run Keyword If    '${comparison_result}[match]' == False    Fail    DataFrames do not match: ${comparison_result}
-    Log    DataFrames match successfully!
+    Returns:
+        A dictionary containing differences:
+            - 'missing_in_df1': Rows present in df2 but missing in df1.
+            - 'missing_in_df2': Rows present in df1 but missing in df2.
+    """
+    # Find rows missing in df1
+    missing_in_df1 = pd.concat([df2, df1]).drop_duplicates(keep=False)
+    
+    # Find rows missing in df2
+    missing_in_df2 = pd.concat([df1, df2]).drop_duplicates(keep=False)
+    
+    return {
+        "missing_in_df1": missing_in_df1,
+        "missing_in_df2": missing_in_df2
+    }
 
 
 
