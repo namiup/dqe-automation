@@ -22,6 +22,8 @@ def read_html_file(file_path):
 
 def read_parquet_file(dataset_path, date_column='date', start_date=None, end_date=None):
     filters = []
+    start_date = pd.to_datetime(start_date)
+    end_date = pd.to_datetime(end_date)
     if start_date:
         filters.append((date_column, '>=', start_date))
     if end_date:
