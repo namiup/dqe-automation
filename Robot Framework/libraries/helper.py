@@ -37,16 +37,30 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
     return df
 
 def compare_html_and_parquet(html_data, parquet_data):
-    pass
-
     # Ensure both inputs are DataFrames
     if isinstance(html_data, pd.Series):
         html_data = html_data.to_frame()
     if isinstance(parquet_data, pd.Series):
         parquet_data = parquet_data.to_frame()
 
+    # Reset index to avoid index differences affecting comparison
+    html_data = html_data.reset_index(drop=True)
+    parquet_data = parquet_data.reset_index(drop=True)
+
     # Compare the DataFrames
     match = html_data.equals(parquet_data)
 
+    # Find unmatched rows
+    # Rows in html_data not in parquet_data
+    unmatched_html = html_data.merge(parquet_data, how='outer', indicator=True).query('_merge == "left_only"').drop('_merge', axis=1)
+    # Rows in parquet_data not in html_data
+    unmatched_parquet = parquet_data.merge(html_data, how='outer', indicator=True).query('_merge == "left_only"').drop('_merge', axis=1)
+
     # Return the result as a dictionary
-    return {"match": match, "html_shape": html_data.shape, "parquet_shape": parquet_data.shape}
+    return {
+        "match": match,
+        "html_shape": html_data.shape,
+        "parquet_shape": parquet_data.shape,
+        "unmatched_html": unmatched_html,
+        "unmatched_parquet": unmatched_parquet
+    }
