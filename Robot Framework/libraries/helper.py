@@ -18,3 +18,8 @@ def read_html_file(file_path):
     # Get the first table and convert it to a string
     df = dataframes[0]
     return df.to_string(index=False)
+
+
+def read_parquet_file(file_path):
+    df = pd.read_parquet(file_path)
+    return df.to_dict(orient='records')
