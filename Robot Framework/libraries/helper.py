@@ -20,7 +20,7 @@ def read_html_file(file_path):
     return df.to_string(index=False)
 
 
-def read_parquet_file(dataset_path, column, date_column, start_date, end_date):
+def read_parquet_file(dataset_path, date_column, start_date, end_date):
     filters = []
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
