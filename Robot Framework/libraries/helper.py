@@ -22,7 +22,7 @@ def read_html_file(file_path):
     "Name": ["Alice", "Bob", "Charlie", "David"],
     "Age": [25, 30, 35, 40],
     "Salary": [50000, 60000, 70000, 80000]
-    }
+    })
                             
     return pdfd
 
