@@ -40,20 +40,6 @@ pipeline {
                 }
             }
         }
-        stage('Run main') {
-            steps {
-                script {
-                    sh '''
-                        #!/bin/bash
-                        set -e
-                        # Activate the virtual environment, set PYTHONPATH, and run the main script
-                        . venv/bin/activate
-                        export PYTHONPATH=$WORKSPACE
-                        python data_dev/main.py
-                    '''
-                }
-            }
-        }
         stage('Run Tests') {
             steps {
                 script {
