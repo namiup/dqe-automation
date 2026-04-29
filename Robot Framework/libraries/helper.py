@@ -1,5 +1,5 @@
 import pandas as pd
 
-def read_parquet_file(file_path):
-    df = pd.read_parquet(file_path)
-    return df.to_dict(orient='records')
+def read_html_file(file_path):
+    df = pd.read_html(file_path)
+    return df.to_string(index=False)
