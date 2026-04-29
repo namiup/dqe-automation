@@ -20,24 +20,7 @@ def read_html_file(file_path):
     return df.to_string(index=False)
 
 
-def read_partitioned_parquet_with_date_filter(
-    dataset_path, 
-    date_column, 
-    start_date=None, 
-    end_date=None
-):
-    """
-    Reads a partitioned Parquet dataset and filters by date.
-
-    Args:
-        dataset_path (str): Path to the root of the partitioned Parquet dataset.
-        date_column (str): Name of the date column to filter on.
-        start_date (str or None): Start date (inclusive) in 'YYYY-MM-DD' format.
-        end_date (str or None): End date (inclusive) in 'YYYY-MM-DD' format.
-
-    Returns:
-        list: List of records (dicts) after filtering.
-    """
+def read_parquet_file(dataset_path, date_column='date', start_date=None, end_date=None):
     filters = []
     if start_date:
         filters.append((date_column, '>=', start_date))
