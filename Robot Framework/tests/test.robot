@@ -17,6 +17,7 @@ Open Local HTML Headless
     [Teardown]    Close Browser
 
 Read Html Data
-    ${data}=    Read Html File    ${HTML_FILE}
+    ${path}=    Normalize Path    ${HTML_FILE}
+    ${data}=    Read Html File    ${path}
     Log    ${data}
     Should Contain    ${data}    'some text'
