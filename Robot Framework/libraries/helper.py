@@ -39,14 +39,14 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
 def compare_html_and_parquet(html_data, parquet_data):
     pass
 
-    # # Ensure both inputs are DataFrames
-    # if isinstance(html_data, pd.Series):
-    #     html_data = html_data.to_frame()
-    # if isinstance(parquet_data, pd.Series):
-    #     parquet_data = parquet_data.to_frame()
+    # Ensure both inputs are DataFrames
+    if isinstance(html_data, pd.Series):
+        html_data = html_data.to_frame()
+    if isinstance(parquet_data, pd.Series):
+        parquet_data = parquet_data.to_frame()
 
-    # # Compare the DataFrames
-    # match = html_data.equals(parquet_data)
+    # Compare the DataFrames
+    match = html_data.equals(parquet_data)
 
-    # # Return the result as a dictionary
-    # return {"match": match, "html_shape": html_data.shape, "parquet_shape": parquet_data.shape}
+    # Return the result as a dictionary
+    return {"match": match, "html_shape": html_data.shape, "parquet_shape": parquet_data.shape}
