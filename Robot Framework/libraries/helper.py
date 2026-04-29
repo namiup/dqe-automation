@@ -42,7 +42,7 @@ def compare_dataframes(df1, df2):
     #     return {"match": True, "differences": None}
 
     # Find differences
-    diff = {}
+    # diff = {}
     # Rows only in df1
     # only_in_df1 = pd.concat([df1, df2, df2]).drop_duplicates(keep=False)
     # Rows only in df2
