@@ -19,4 +19,4 @@ Open Local HTML Headless
 Read Html Data
     ${data}=    Read Html File    ${HTML_FILE}
     Log    ${data}
-    Should Contain    ${data}    title
+    Should Contain    ${data}    'some text'
