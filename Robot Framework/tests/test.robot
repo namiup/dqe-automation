@@ -25,7 +25,7 @@ Read Html Data
     File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
     Log    ${data}    console=True
-    ${found}=    Evaluate    (${data} == 47).any().any() or (${data}.astype(str) == "47")
+    ${found}=    ${data}.astype(str) == "47"
     Should Be True    ${found}    msg=Value 47 not found in table
 
 Read Parquet Data
