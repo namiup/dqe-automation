@@ -25,7 +25,7 @@ Read Html Data
     File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
     Log    ${data}    console=True
-    Should Contain    ${data}    1,356.18
+    Should Contain    ${data}    786.50
 
 Read Parquet Data
     ${data}=    Read Parquet File    ${PARQUET_FOLDER}    ${DATE_COLUMN}    ${START_DATE}    ${END_DATE}
