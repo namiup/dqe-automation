@@ -43,20 +43,23 @@ def compare_html_and_parquet(html_data, parquet_data):
     if isinstance(parquet_data, pd.Series):
         parquet_data = parquet_data.to_frame()
 
-    # Reset index to avoid index differences affecting comparison
+    # Reset row index for both DataFrames
     html_data = html_data.reset_index(drop=True)
     parquet_data = parquet_data.reset_index(drop=True)
+
+    # Flatten MultiIndex columns if present
+    if isinstance(html_data.columns, pd.MultiIndex):
+        html_data.columns = ['_'.join(map(str, col)).strip() for col in html_data.columns.values]
+    if isinstance(parquet_data.columns, pd.MultiIndex):
+        parquet_data.columns = ['_'.join(map(str, col)).strip() for col in parquet_data.columns.values]
 
     # Compare the DataFrames
     match = html_data.equals(parquet_data)
 
-    # Find unmatched rows
-    # Rows in html_data not in parquet_data
-    unmatched_html = html_data.merge(parquet_data, how='outer', indicator=True).query('_merge == "left_only"').drop('_merge', axis=1)
-    # Rows in parquet_data not in html_data
-    unmatched_parquet = parquet_data.merge(html_data, how='outer', indicator=True).query('_merge == "left_only"').drop('_merge', axis=1)
+    # Find unmatched rows using all columns
+    unmatched_html = html_data[~html_data.apply(tuple, 1).isin(parquet_data.apply(tuple, 1))]
+    unmatched_parquet = parquet_data[~parquet_data.apply(tuple, 1).isin(html_data.apply(tuple, 1))]
 
-    # Return the result as a dictionary
     return {
         "match": match,
         "html_shape": html_data.shape,
