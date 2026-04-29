@@ -41,7 +41,7 @@ Compare HTML and Parquet Data
     ${parquet_data}=    Evaluate    libraries.helper.read_parquet_file("${PARQUET_FOLDER}", "${DATE_COLUMN}", "${START_DATE}", "${END_DATE}")
 
     # Step 3: Compare DataFrames
-    ${comparison_result}=    Evaluate    libraries.helper.compare_html_and_parquet(${html_data}, ${parquet_data})    modules=libraries.helper
+    ${comparison_result}=    Call Method    libraries.helper    compare_html_and_parquet    ${html_data}    ${parquet_data}
     Log    ${comparison_result}
 
     # Step 4: Validate the comparison result
