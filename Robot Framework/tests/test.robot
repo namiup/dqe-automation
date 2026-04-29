@@ -47,5 +47,3 @@ Compare HTML and Parquet Data
     # Step 4: Validate the comparison result
     Run Keyword If    '${comparison_result}[match]' == 'False'    Fail    DataFrames do not match: ${comparison_result}
     Log    DataFrames match successfully!
-
-
