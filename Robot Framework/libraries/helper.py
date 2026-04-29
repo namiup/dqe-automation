@@ -35,19 +35,14 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
     )
     return df.iloc[:, 1]
 
-def compare_dataframes(df1, df2):
+def compare_html_and_parquet(html_data, parquet_data):
     """
-    Compare two pandas DataFrames or Series and return a dictionary with the comparison result.
+    Compare two pandas Series or DataFrames and return the comparison result.
     """
-    if not isinstance(df1, (pd.DataFrame, pd.Series)) or not isinstance(df2, (pd.DataFrame, pd.Series)):
-        raise ValueError("Both inputs must be pandas DataFrames or Series.")
+    if isinstance(html_data, pd.Series):
+        html_data = html_data.to_frame()
+    if isinstance(parquet_data, pd.Series):
+        parquet_data = parquet_data.to_frame()
 
-    # Check if the dataframes/series are equal
-    match = df1.equals(df2)
-
-    # Return the result as a dictionary
-    return {"match": match, "df1_shape": df1.shape, "df2_shape": df2.shape}
-
-def get_columns(df):
-    """Returns the column names of a DataFrame as a list."""
-    return list(df.columns)
+    match = html_data.equals(parquet_data)
+    return {"match": match, "html_shape": html_data.shape, "parquet_shape": parquet_data.shape}
