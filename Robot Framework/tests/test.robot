@@ -22,3 +22,8 @@ Read Html Data
     ${data}=    Read Html File    ${path}
     Log    ${data}
     Should Contain    ${data}    Bos
+
+Read Parquet Data
+    ${data}=    Read Parquet File    ${PARQUET_FILE}
+    Log    ${data}
+    Should Contain    ${data[0]['column_name']}    expected_value
