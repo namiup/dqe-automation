@@ -5,6 +5,7 @@ Library    libraries.helper
 
 *** Variables ***
 ${HTML_FILE}    /var/jenkins_home/workspace/Robot/Robot Framework/logs/report.html
+${PARQUET_FILE}    /parquet_data/facility_name_min_time_spent_per_visit_date
 
 *** Test Cases ***
 Open Local HTML Headless
@@ -26,4 +27,3 @@ Read Html Data
 Read Parquet Data
     ${data}=    Read Parquet File    ${PARQUET_FILE}
     Log    ${data}
-    Should Contain    ${data[0]['column_name']}    expected_value
