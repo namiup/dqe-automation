@@ -4,7 +4,7 @@ Library    OperatingSystem
 Library    libraries.helper
 
 *** Variables ***
-${HTML_FILE}    logs/report.html
+${HTML_FILE}    /var/jenkins_home/workspace/Robot/Robot Framework/logs/report.html
 
 *** Test Cases ***
 Open Local HTML Headless
