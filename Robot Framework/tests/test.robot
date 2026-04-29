@@ -24,7 +24,7 @@ Read Html Data
     ${path}=    Normalize Path    ${HTML_FILE}
     File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
-    Log    ${data}
+    Log    ${data}    console=True
     Should Contain    ${data}    1,356.18
 
 Read Parquet Data
