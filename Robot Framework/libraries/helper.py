@@ -14,8 +14,9 @@ def read_html_file(file_path):
     # Check if there are any tables
     if len(dataframes) == 0:
         raise ValueError("No tables found in the HTML file.")
-    print("HTML table columns:", df.columns.tolist())
+    
     df = dataframes[0]
+    print("HTML table columns:", df.columns.tolist())
     return df[['patient_id']]
 
 def read_parquet_file(dataset_path, date_column, start_date, end_date):
