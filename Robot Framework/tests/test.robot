@@ -18,6 +18,7 @@ Open Local HTML Headless
 
 Read Html Data
     ${path}=    Normalize Path    ${HTML_FILE}
+    File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
     Log    ${data}
     Should Contain    ${data}    Bob
