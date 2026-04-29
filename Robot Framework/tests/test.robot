@@ -20,4 +20,4 @@ Read Html Data
     ${path}=    Normalize Path    ${HTML_FILE}
     ${data}=    Read Html File    ${path}
     Log    ${data}
-    Should Contain    ${data}    'some text'
+    Should Contain    ${data}    Bob
