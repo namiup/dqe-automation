@@ -36,26 +36,17 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
     return df.iloc[:, 1]
 
 def compare_dataframes(df1, df2):
+    """
+    Compare two pandas DataFrames or Series and return a dictionary with the comparison result.
+    """
+    if not isinstance(df1, (pd.DataFrame, pd.Series)) or not isinstance(df2, (pd.DataFrame, pd.Series)):
+        raise ValueError("Both inputs must be pandas DataFrames or Series.")
 
-    # Check for exact match
-    # if df1.equals(df2):
-    #     return {"match": True, "differences": None}
+    # Check if the dataframes/series are equal
+    match = df1.equals(df2)
 
-    # Find differences
-    # diff = {}
-    # Rows only in df1
-    # only_in_df1 = pd.concat([df1, df2, df2]).drop_duplicates(keep=False)
-    # Rows only in df2
-    # only_in_df2 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
-    # Rows with same index but different values
-    # diff_rows = df1.compare(df2, align_axis=0) if df1.shape == df2.shape else None
-
-    # diff["match"] = False
-    # diff["only_in_df1"] = only_in_df1 if not only_in_df1.empty else None
-    # diff["only_in_df2"] = only_in_df2 if not only_in_df2.empty else None
-    # diff["different_rows"] = diff_rows if diff_rows is not None and not diff_rows.empty else None
-
-    return 1 
+    # Return the result as a dictionary
+    return {"match": match, "df1_shape": df1.shape, "df2_shape": df2.shape}
 
 def get_columns(df):
     """Returns the column names of a DataFrame as a list."""
