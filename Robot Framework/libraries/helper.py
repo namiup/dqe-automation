@@ -2,7 +2,7 @@ import pandas as pd
 from io import StringIO
 
 def read_html_file(file_path):
-    """Reads an HTML file or literal HTML content and returns the first table as a string."""
+    """Reads an HTML file or literal HTML content and returns the first table as a DataFrame."""
     # Check if the input is literal HTML content
     if file_path.strip().startswith("<"):
         # Wrap the literal HTML content in a StringIO object
@@ -13,14 +13,13 @@ def read_html_file(file_path):
     
     # Check if there are any tables
     if len(dataframes) == 0:
-        return "No tables found in the HTML file."
+        raise ValueError("No tables found in the HTML file.")
     
-    # Get the first table and convert it to a string
-    df = dataframes[0]
-    return df.to_string(index=False)
-
+    # Return the first table as a DataFrame
+    return dataframes[0]
 
 def read_parquet_file(dataset_path, date_column, start_date, end_date):
+    """Reads a Parquet file and filters data based on date range."""
     filters = []
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
@@ -35,12 +34,10 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
         filters=filters if filters else None
     )
 
-    df = df[[column]]
-    
-    return df.to_dict(orient='records')
+    return df
 
 def compare_dataframes(df1, df2):
-
+    """Compares two DataFrames and returns a dictionary with differences."""
     # Ensure same column order
     df1 = df1[df2.columns]
     
