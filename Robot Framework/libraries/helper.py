@@ -44,9 +44,9 @@ def compare_dataframes(df1, df2):
     # Find differences
     diff = {}
     # Rows only in df1
-    only_in_df1 = pd.concat([df1, df2, df2]).drop_duplicates(keep=False)
+    # only_in_df1 = pd.concat([df1, df2, df2]).drop_duplicates(keep=False)
     # Rows only in df2
-    only_in_df2 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
+    # only_in_df2 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
     # Rows with same index but different values
     # diff_rows = df1.compare(df2, align_axis=0) if df1.shape == df2.shape else None
 
@@ -55,7 +55,7 @@ def compare_dataframes(df1, df2):
     # diff["only_in_df2"] = only_in_df2 if not only_in_df2.empty else None
     # diff["different_rows"] = diff_rows if diff_rows is not None and not diff_rows.empty else None
 
-    return 1 # diff
+    return 1 
 
 def get_columns(df):
     """Returns the column names of a DataFrame as a list."""
