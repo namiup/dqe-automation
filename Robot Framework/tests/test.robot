@@ -41,12 +41,6 @@ Compare HTML and Parquet Data
     ${parquet_data}=    Evaluate    libraries.helper.read_parquet_file("${PARQUET_FOLDER}", "${DATE_COLUMN}", "${START_DATE}", "${END_DATE}")
 
     # Step 3: Compare DataFrames
-    pdfd = pd.DataFrame({
-    "ID": [1, 2, 3, 4],
-    "Name": ["Alice", "Bob", "Charlie", "David"],
-    "Age": [25, 30, 35, 40],
-    "Salary": [50000, 60000, 70000, 80000]
-    }
     ${comparison_result}=    Evaluate    libraries.helper.compare_html_and_parquet(pdfd, pdfd)
     Log    ${comparison_result}
 
