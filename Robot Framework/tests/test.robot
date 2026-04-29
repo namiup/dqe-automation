@@ -1,7 +1,7 @@
 *** Settings ***
 Library    SeleniumLibrary
 Library    OperatingSystem
-Library    libraries.helper
+Library    libraries.helper.Helper
 
 *** Variables ***
 ${HTML_FILE}    logs/report.html
