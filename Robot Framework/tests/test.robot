@@ -6,7 +6,9 @@ Library    libraries.helper
 *** Variables ***
 ${HTML_FILE}    /var/jenkins_home/workspace/Robot/Robot Framework/logs/report.html
 ${PARQUET_FOLDER}    /parquet_data/facility_name_min_time_spent_per_visit_date
-${FILTER_DATE}     '2000-01-01'
+${DATE_COLUMN}     date
+${START_DATE}     2000-01-01
+${END_DATE}     2100-01-01
 
 *** Test Cases ***
 Open Local HTML Headless
@@ -26,5 +28,5 @@ Read Html Data
     Should Contain    ${data}    Bob
 
 Read Parquet Data
-    ${data}=    Read Parquet File    ${PARQUET_FOLDER}, ${FILTER_DATE}
+    ${data}=    Read Parquet File    ${PARQUET_FOLDER}    ${DATE_COLUMN}    ${START_DATE}    ${END_DATE}
     Log    ${data}
