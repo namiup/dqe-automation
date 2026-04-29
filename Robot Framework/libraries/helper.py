@@ -20,7 +20,7 @@ def read_html_file(file_path):
     return df.to_string(index=False)
 
 
-def read_parquet_file(dataset_path, date_column='date', start_date=None, end_date=None):
+def read_parquet_file(dataset_path, column, date_column, start_date, end_date):
     filters = []
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
@@ -34,6 +34,9 @@ def read_parquet_file(dataset_path, date_column='date', start_date=None, end_dat
         engine='pyarrow', 
         filters=filters if filters else None
     )
+
+    df = df[[column]]
+    
     return df.to_dict(orient='records')
 
 def compare_dataframes(df1, df2):
