@@ -60,3 +60,7 @@ def compare_dataframes(df1, df2):
     diff["different_rows"] = diff_rows if diff_rows is not None and not diff_rows.empty else None
 
     return diff
+
+def get_columns(df):
+    """Returns the column names of a DataFrame as a list."""
+    return list(df.columns)
