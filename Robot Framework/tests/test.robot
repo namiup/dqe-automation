@@ -40,12 +40,12 @@ Compare HTML and Parquet Data
     # Step 2: Read Parquet data
     ${parquet_data}=    Evaluate    libraries.helper.read_parquet_file("${PARQUET_FOLDER}", "${DATE_COLUMN}", "${START_DATE}", "${END_DATE}")
 
-    # Step 4: Compare DataFrames
-    ${comparison_result}=    Evaluate    libraries.helper.compare_dataframes(${html_data}, ${parquet_data})    modules=pandas
+    # Step 3: Compare DataFrames
+    ${comparison_result}=    Evaluate    libraries.helper.compare_html_and_parquet(${html_data}, ${parquet_data})    modules=libraries.helper
     Log    ${comparison_result}
 
-    # Step 5: Validate the comparison result
-    Run Keyword If    '${comparison_result}[match]' == False    Fail    DataFrames do not match: ${comparison_result}
+    # Step 4: Validate the comparison result
+    Run Keyword If    '${comparison_result}[match]' == 'False'    Fail    DataFrames do not match: ${comparison_result}
     Log    DataFrames match successfully!
 
 
