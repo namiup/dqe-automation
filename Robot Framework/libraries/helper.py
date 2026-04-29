@@ -36,16 +36,6 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
     return df.iloc[:, 1]
 
 def compare_dataframes(df1, df2):
-    """Compares two DataFrames or Series and returns a dictionary with differences."""
-    # Convert Series to DataFrame if necessary
-    if isinstance(df1, pd.Series):
-        df1 = df1.to_frame()
-    if isinstance(df2, pd.Series):
-        df2 = df2.to_frame()
-
-    # Ensure same column order
-    if list(df1.columns) != list(df2.columns):
-        raise ValueError("The two DataFrames/Series must have the same columns to compare.")
 
     # Check for exact match
     if df1.equals(df2):
