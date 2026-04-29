@@ -25,7 +25,7 @@ Read Html Data
     File Should Exist    ${path}
     ${data}=    Read Html File    ${path}
     Log    ${data}
-    Should Contain    ${data}    Bob
+    Should Contain    ${data}    1610.06
 
 Read Parquet Data
     ${data}=    Read Parquet File    ${PARQUET_FOLDER}    ${DATE_COLUMN}    ${START_DATE}    ${END_DATE}
