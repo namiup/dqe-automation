@@ -35,3 +35,28 @@ def read_parquet_file(dataset_path, date_column='date', start_date=None, end_dat
         filters=filters if filters else None
     )
     return df.to_dict(orient='records')
+
+def compare_dataframes(df1, df2):
+
+    # Ensure same column order
+    df1 = df1[df2.columns]
+    
+    # Check for exact match
+    if df1.equals(df2):
+        return {"match": True, "differences": None}
+    
+    # Find differences
+    diff = {}
+    # Rows only in df1
+    only_in_df1 = pd.concat([df1, df2, df2]).drop_duplicates(keep=False)
+    # Rows only in df2
+    only_in_df2 = pd.concat([df2, df1, df1]).drop_duplicates(keep=False)
+    # Rows with same index but different values
+    diff_rows = df1.compare(df2, align_axis=0) if df1.shape == df2.shape else None
+
+    diff["match"] = False
+    diff["only_in_df1"] = only_in_df1 if not only_in_df1.empty else None
+    diff["only_in_df2"] = only_in_df2 if not only_in_df2.empty else None
+    diff["different_rows"] = diff_rows if diff_rows is not None and not diff_rows.empty else None
+
+    return diff
