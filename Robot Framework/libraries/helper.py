@@ -38,8 +38,8 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
 def compare_dataframes(df1, df2):
 
     # Check for exact match
-    if df1.equals(df2):
-        return {"match": True, "differences": None}
+    # if df1.equals(df2):
+    #     return {"match": True, "differences": None}
 
     # Find differences
     diff = {}
