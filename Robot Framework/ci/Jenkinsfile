@@ -48,7 +48,7 @@ pipeline {
                         set -e
                         # Activate the virtual environment and run Robot Framework tests
                         . venv/bin/activate
-                        robot 'Robot Framework/tests/test.robot'
+                        robot --pythonpath /var/jenkins_home/workspace/Robot/Robot\\ Framework Robot\\ Framework/tests/test.robot
                     '''
                 }
             }
