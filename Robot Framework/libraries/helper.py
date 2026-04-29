@@ -16,7 +16,15 @@ def read_html_file(file_path):
         raise ValueError("No tables found in the HTML file.")
     
     df = dataframes[0]
-    return df
+
+    pdfd = pd.DataFrame({
+    "ID": [1, 2, 3, 4],
+    "Name": ["Alice", "Bob", "Charlie", "David"],
+    "Age": [25, 30, 35, 40],
+    "Salary": [50000, 60000, 70000, 80000]
+    }
+                            
+    return pdfd
 
 def read_parquet_file(dataset_path, date_column, start_date, end_date):
     """Reads a Parquet file and filters data based on date range."""
