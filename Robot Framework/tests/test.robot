@@ -35,7 +35,7 @@ Compare HTML and Parquet Data
     # Step 1: Read HTML data
     ${html_path}=    Normalize Path    ${HTML_FILE}
     File Should Exist    ${html_path}
-    ${html_data}=    Evaluate    libraries.helper.read_html_file("${html_path}")
+    ${html_data}=    Read Html File    ${path}
 
     # Step 2: Read Parquet data
     ${parquet_data}=    Evaluate    libraries.helper.read_parquet_file("${PARQUET_FOLDER}", "${DATE_COLUMN}", "${START_DATE}", "${END_DATE}")
