@@ -3,7 +3,7 @@ Library    SeleniumLibrary
 Library    OperatingSystem
 
 *** Variables ***
-${URL_FILE}    report.html
+${URL_FILE}    logs/report.html
 
 *** Test Cases ***
 Open Local HTML Headless
