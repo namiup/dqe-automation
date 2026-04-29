@@ -16,7 +16,7 @@ def read_html_file(file_path):
         raise ValueError("No tables found in the HTML file.")
     
     df = dataframes[0]
-    return df.iloc[:, 1]
+    return df
 
 def read_parquet_file(dataset_path, date_column, start_date, end_date):
     """Reads a Parquet file and filters data based on date range."""
@@ -33,7 +33,7 @@ def read_parquet_file(dataset_path, date_column, start_date, end_date):
         engine='pyarrow', 
         filters=filters if filters else None
     )
-    return df.iloc[:, 1]
+    return df
 
 def compare_html_and_parquet(html_data, parquet_data):
     """
