@@ -6,7 +6,7 @@ Library    libraries.helper
 *** Variables ***
 ${HTML_FILE}    /var/jenkins_home/workspace/Robot/Robot Framework/logs/report.html
 ${PARQUET_FOLDER}    /parquet_data/facility_name_min_time_spent_per_visit_date
-${DATE_COLUMN}     date
+${DATE_COLUMN}     visit_date
 ${START_DATE}     2000-01-01
 ${END_DATE}     2100-01-01
 
