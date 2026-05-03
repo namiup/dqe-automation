@@ -36,7 +36,7 @@ def test_duplicates(read_file):
     ("2", "True")
 ])
 
-@pytest.mark.xfail
+
 def test_active_players(id, is_active, read_file):
     found_id = False
     for row in read_file:
@@ -45,7 +45,7 @@ def test_active_players(id, is_active, read_file):
             assert row.get('is_active') == is_active, f"is_active should be {is_active} for id={id}, got {row.get('is_active')}"
     assert found_id, f"Row with id={id} not found"
 
-@pytest.mark.xfail
+
 def test_active_player(read_file):
     id = "2"
     is_active = "True"
