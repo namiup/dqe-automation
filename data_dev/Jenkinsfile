@@ -32,6 +32,7 @@ pipeline {
                         python3 -m venv venv
                         . venv/bin/activate
                         pip install pytest
+                        pip install robotframework-reportportal
                         pip install -r data_dev/requirements.txt
                     '''
                 }
@@ -54,7 +55,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest ./'PyTest Introduction' -v --html=report.html --file_path="./PyTest Introduction/src/data/data.csv" --actual_schema=id,name,age,email,is_active
+                        pytest --listener robotframework_reportportal.listener ./'PyTest Introduction' -v --html=report.html --file_path="./PyTest Introduction/src/data/data.csv" --actual_schema=id,name,age,email,is_active
                     '''
                 }
             }
