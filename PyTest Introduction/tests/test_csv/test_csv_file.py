@@ -4,11 +4,9 @@ import re
 def test_file_not_empty(read_file):
     assert len(read_file) > 0, f"File is empty: {file_path}"
 
-@pytest.mark.validate_csv
 def test_validate_schema(validate_schema):
     return validate_schema
 
-@pytest.mark.validate_csv
 @pytest.mark.skip
 def test_age_column_valid(read_file):
     for row in read_file:
@@ -18,7 +16,6 @@ def test_age_column_valid(read_file):
             assert False, f"Invalid or missing age value: {row.get('age')}"
         assert 0 <= age <= 100, f"Age out of range in row {row_num}: {age}"
 
-@pytest.mark.validate_csv
 @pytest.mark.skip
 def test_email_column_valid(read_file):
     email_pattern = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
