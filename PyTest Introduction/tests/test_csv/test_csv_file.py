@@ -24,7 +24,7 @@ def test_email_column_valid(read_file):
         assert email_pattern.match(email), f"Invalid email format: {email}"
 
 
-@pytest.mark.xfail
+
 def test_duplicates(read_file):
     rows = list(read_file)
     header, *data_rows = rows  # Unpack header and data rows
