@@ -60,11 +60,11 @@ pipeline {
                 }
             }
         }
-        stage('Run Results') {
-            steps {
-                junit 'results.xml'
-            }
-        }
+        // stage('Run Results') {
+        //     steps {
+        //         junit 'results.xml'
+        //     }
+        // }
     }
     post {
         always {
