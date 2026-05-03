@@ -23,7 +23,7 @@ def test_email_column_valid(read_file):
         email = row.get('email', '')
         assert email_pattern.match(email), f"Invalid email format: {email}"
 
-@pytest.mark.validate_csv
+
 @pytest.mark.xfail
 def test_duplicates(read_file):
     rows = list(read_file)
