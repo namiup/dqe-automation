@@ -32,7 +32,6 @@ pipeline {
                         python3 -m venv venv
                         . venv/bin/activate
                         pip install pytest
-                        pip install pytest-reportportal
                         pip install -r data_dev/requirements.txt
                     '''
                 }
