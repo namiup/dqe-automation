@@ -55,7 +55,7 @@ pipeline {
                 script {
                     sh '''
                         . venv/bin/activate
-                        pytest --listener robotframework_reportportal.listener ./'PyTest Introduction' -v --html=report.html --file_path="./PyTest Introduction/src/data/data.csv" --actual_schema=id,name,age,email,is_active
+                        pytest --reportportal ./'PyTest Introduction' -v --html=report.html --file_path="./PyTest Introduction/src/data/data.csv" --actual_schema=id,name,age,email,is_active
                     '''
                 }
             }
